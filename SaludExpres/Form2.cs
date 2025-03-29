@@ -28,7 +28,12 @@ namespace SaludExpres
         {
             Form3 form3 = new Form3();
             form3.Show();
-            this.Hide();
+        }
+
+        private void buttonSucursales_Click(object sender, EventArgs e)
+        {
+            SucursalesAdmin formSucursales = new SucursalesAdmin();
+            formSucursales.Show();
         }
     }
 }

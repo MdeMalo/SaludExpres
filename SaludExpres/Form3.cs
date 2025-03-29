@@ -99,9 +99,11 @@ namespace SaludExpres
                 {
                     connection.Open();
                     string query = @"SELECT u.idUsuario, u.usuario, u.email, u.activo, 
-                                    e.nombre, e.apellidoPaterno, e.apellidoMaterno, e.cargo, e.salario 
+                                    e.nombre, e.apellidoPaterno, e.apellidoMaterno, 
+                                    e.cargo, e.salario, r.nombre AS rol
                              FROM usuario u
-                             INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado";
+                             INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado
+                             INNER JOIN rol r ON u.idRol = r.idRol";  // Agregado JOIN con rol
 
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
                     {
@@ -120,6 +122,7 @@ namespace SaludExpres
                 MessageBox.Show("Error al cargar los usuarios y empleados: " + ex.Message);
             }
         }
+
 
 
         private void dataGridUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -159,24 +162,32 @@ namespace SaludExpres
 
         private void comboFiltroEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (dataGridUsuarios.DataSource is DataTable dt)
+            try
             {
-                string filtro = comboFiltroEstado.SelectedItem.ToString();
+                if (dataGridUsuarios.DataSource is DataTable dt)
+                {
+                    string filtro = comboFiltroEstado.SelectedItem.ToString();
 
-                if (filtro == "Todos")
-                {
-                    dt.DefaultView.RowFilter = ""; // Muestra todos los usuarios
-                }
-                else if (filtro == "Contratado")
-                {
-                    dt.DefaultView.RowFilter = "activo = 1";
-                }
-                else if (filtro == "Despedido")
-                {
-                    dt.DefaultView.RowFilter = "activo = 0";
+                    if (filtro == "Todos")
+                    {
+                        dt.DefaultView.RowFilter = ""; // Muestra todos los usuarios
+                    }
+                    else if (filtro == "Contratado")
+                    {
+                        dt.DefaultView.RowFilter = "activo = 1"; // Filtra por usuarios activos
+                    }
+                    else if (filtro == "Despedido")
+                    {
+                        dt.DefaultView.RowFilter = "activo = 0"; // Filtra por usuarios inactivos
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al aplicar el filtro de estado: " + ex.Message);
+            }
         }
+
 
     }
 }

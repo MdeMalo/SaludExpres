@@ -32,6 +32,7 @@
             listView1 = new ListView();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            buttonSucursales = new Button();
             button3 = new Button();
             buttonUsuarios = new Button();
             button2 = new Button();
@@ -42,8 +43,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top;
             groupBox1.Controls.Add(listView1);
-            groupBox1.Location = new Point(158, 90);
+            groupBox1.Location = new Point(416, 87);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(566, 463);
             groupBox1.TabIndex = 0;
@@ -60,9 +62,10 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(158, 34);
+            label1.Location = new Point(416, 31);
             label1.Name = "label1";
             label1.Size = new Size(194, 38);
             label1.TabIndex = 1;
@@ -70,16 +73,28 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonSucursales);
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(buttonUsuarios);
             groupBox2.Controls.Add(button2);
             groupBox2.Controls.Add(button1);
-            groupBox2.Location = new Point(158, 559);
+            groupBox2.Location = new Point(416, 556);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(566, 125);
+            groupBox2.Size = new Size(566, 157);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
+            // 
+            // buttonSucursales
+            // 
+            buttonSucursales.Location = new Point(203, 113);
+            buttonSucursales.Name = "buttonSucursales";
+            buttonSucursales.Size = new Size(160, 29);
+            buttonSucursales.TabIndex = 7;
+            buttonSucursales.Text = "Sucursales";
+            buttonSucursales.UseVisualStyleBackColor = true;
+            buttonSucursales.Click += buttonSucursales_Click;
             // 
             // button3
             // 
@@ -122,7 +137,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1398, 716);
+            ClientSize = new Size(1398, 745);
             Controls.Add(groupBox2);
             Controls.Add(label1);
             Controls.Add(groupBox1);
@@ -145,5 +160,6 @@
         private Button buttonUsuarios;
         private Button button2;
         private Button button1;
+        private Button buttonSucursales;
     }
 }

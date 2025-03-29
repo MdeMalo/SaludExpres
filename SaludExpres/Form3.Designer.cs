@@ -49,7 +49,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            groupBox1.Anchor = AnchorStyles.Top;
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(comboFiltroEstado);
             groupBox1.Controls.Add(label2);
@@ -76,7 +76,7 @@
             // comboFiltroEstado
             // 
             comboFiltroEstado.FormattingEnabled = true;
-            comboFiltroEstado.Items.AddRange(new object[] { "", "Contratado", "Despredido" });
+            comboFiltroEstado.Items.AddRange(new object[] { "", "Contratado", "Despedido" });
             comboFiltroEstado.Location = new Point(805, 32);
             comboFiltroEstado.Name = "comboFiltroEstado";
             comboFiltroEstado.Size = new Size(173, 28);
@@ -131,7 +131,7 @@
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            groupBox2.Anchor = AnchorStyles.Top;
             groupBox2.Controls.Add(dataGridUsuarios);
             groupBox2.Location = new Point(192, 131);
             groupBox2.Name = "groupBox2";
@@ -142,7 +142,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            groupBox3.Anchor = AnchorStyles.Top;
             groupBox3.Controls.Add(buttonEliminarUs);
             groupBox3.Controls.Add(buttonEditUs);
             groupBox3.Controls.Add(buttonAgregarUsuario);
