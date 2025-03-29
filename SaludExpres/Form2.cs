@@ -35,5 +35,17 @@ namespace SaludExpres
             SucursalesAdmin formSucursales = new SucursalesAdmin();
             formSucursales.Show();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GenerarReportes formReportes = new GenerarReportes();
+            formReportes.Show();
+        }
+
+        private void buttonRegVisita_Click(object sender, EventArgs e)
+        {
+            RegistrarVisita formRegVisita = new RegistrarVisita();
+            formRegVisita.Show();
+        }
     }
 }
