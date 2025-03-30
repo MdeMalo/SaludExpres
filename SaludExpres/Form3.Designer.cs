@@ -41,6 +41,7 @@
             buttonEliminarUs = new Button();
             buttonEditUs = new Button();
             buttonAgregarUsuario = new Button();
+            buttonCerrar = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridUsuarios).BeginInit();
             groupBox2.SuspendLayout();
@@ -144,6 +145,7 @@
             // groupBox3
             // 
             groupBox3.Anchor = AnchorStyles.Bottom;
+            groupBox3.Controls.Add(buttonCerrar);
             groupBox3.Controls.Add(buttonEliminarUs);
             groupBox3.Controls.Add(buttonEditUs);
             groupBox3.Controls.Add(buttonAgregarUsuario);
@@ -187,6 +189,16 @@
             buttonAgregarUsuario.UseVisualStyleBackColor = true;
             buttonAgregarUsuario.Click += buttonAgregarUsuario_Click;
             // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(1356, 44);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(94, 29);
+            buttonCerrar.TabIndex = 3;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -221,5 +233,6 @@
         private Button buttonEliminarUs;
         private Button buttonEditUs;
         private Button buttonAgregarUsuario;
+        private Button buttonCerrar;
     }
 }

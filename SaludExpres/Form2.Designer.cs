@@ -32,10 +32,10 @@
             listView1 = new ListView();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            buttonRegistrarProveedor = new Button();
             buttonAdminResp = new Button();
             buttonClose = new Button();
             buttonRegVisita = new Button();
-            buttonAniadirResp = new Button();
             buttonSucursales = new Button();
             button3 = new Button();
             buttonUsuarios = new Button();
@@ -78,10 +78,10 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonRegistrarProveedor);
             groupBox2.Controls.Add(buttonAdminResp);
             groupBox2.Controls.Add(buttonClose);
             groupBox2.Controls.Add(buttonRegVisita);
-            groupBox2.Controls.Add(buttonAniadirResp);
             groupBox2.Controls.Add(buttonSucursales);
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(buttonUsuarios);
@@ -94,9 +94,19 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
             // 
+            // buttonRegistrarProveedor
+            // 
+            buttonRegistrarProveedor.Location = new Point(69, 168);
+            buttonRegistrarProveedor.Name = "buttonRegistrarProveedor";
+            buttonRegistrarProveedor.Size = new Size(196, 29);
+            buttonRegistrarProveedor.TabIndex = 12;
+            buttonRegistrarProveedor.Text = "Administrar proveedor";
+            buttonRegistrarProveedor.UseVisualStyleBackColor = true;
+            buttonRegistrarProveedor.Click += buttonRegistrarProveedor_Click;
+            // 
             // buttonAdminResp
             // 
-            buttonAdminResp.Location = new Point(185, 145);
+            buttonAdminResp.Location = new Point(302, 127);
             buttonAdminResp.Name = "buttonAdminResp";
             buttonAdminResp.Size = new Size(196, 29);
             buttonAdminResp.TabIndex = 11;
@@ -116,7 +126,7 @@
             // 
             // buttonRegVisita
             // 
-            buttonRegVisita.Location = new Point(185, 185);
+            buttonRegVisita.Location = new Point(302, 168);
             buttonRegVisita.Name = "buttonRegVisita";
             buttonRegVisita.Size = new Size(196, 29);
             buttonRegVisita.TabIndex = 9;
@@ -124,21 +134,11 @@
             buttonRegVisita.UseVisualStyleBackColor = true;
             buttonRegVisita.Click += buttonRegVisita_Click;
             // 
-            // buttonAniadirResp
-            // 
-            buttonAniadirResp.Location = new Point(324, 105);
-            buttonAniadirResp.Name = "buttonAniadirResp";
-            buttonAniadirResp.Size = new Size(160, 29);
-            buttonAniadirResp.TabIndex = 8;
-            buttonAniadirResp.Text = "Añadir responsable";
-            buttonAniadirResp.UseVisualStyleBackColor = true;
-            buttonAniadirResp.Click += buttonAniadirResp_Click;
-            // 
             // buttonSucursales
             // 
-            buttonSucursales.Location = new Point(82, 105);
+            buttonSucursales.Location = new Point(69, 127);
             buttonSucursales.Name = "buttonSucursales";
-            buttonSucursales.Size = new Size(160, 29);
+            buttonSucursales.Size = new Size(196, 29);
             buttonSucursales.TabIndex = 7;
             buttonSucursales.Text = "Sucursales";
             buttonSucursales.UseVisualStyleBackColor = true;
@@ -146,9 +146,9 @@
             // 
             // button3
             // 
-            button3.Location = new Point(324, 65);
+            button3.Location = new Point(302, 86);
             button3.Name = "button3";
-            button3.Size = new Size(160, 29);
+            button3.Size = new Size(196, 29);
             button3.TabIndex = 6;
             button3.Text = "Reportes";
             button3.UseVisualStyleBackColor = true;
@@ -156,9 +156,9 @@
             // 
             // buttonUsuarios
             // 
-            buttonUsuarios.Location = new Point(324, 25);
+            buttonUsuarios.Location = new Point(302, 45);
             buttonUsuarios.Name = "buttonUsuarios";
-            buttonUsuarios.Size = new Size(160, 29);
+            buttonUsuarios.Size = new Size(196, 29);
             buttonUsuarios.TabIndex = 5;
             buttonUsuarios.Text = "Usuarios";
             buttonUsuarios.UseVisualStyleBackColor = true;
@@ -166,22 +166,23 @@
             // 
             // buttonRegistrarProducto
             // 
-            buttonRegistrarProducto.Location = new Point(82, 65);
+            buttonRegistrarProducto.Location = new Point(69, 86);
             buttonRegistrarProducto.Name = "buttonRegistrarProducto";
-            buttonRegistrarProducto.Size = new Size(160, 29);
+            buttonRegistrarProducto.Size = new Size(196, 29);
             buttonRegistrarProducto.TabIndex = 4;
-            buttonRegistrarProducto.Text = "Registrar productos";
+            buttonRegistrarProducto.Text = "Inventario";
             buttonRegistrarProducto.UseVisualStyleBackColor = true;
             buttonRegistrarProducto.Click += buttonRegistrarProducto_Click;
             // 
             // button1
             // 
-            button1.Location = new Point(82, 25);
+            button1.Location = new Point(69, 45);
             button1.Name = "button1";
-            button1.Size = new Size(160, 29);
+            button1.Size = new Size(196, 29);
             button1.TabIndex = 3;
             button1.Text = "Registrar ventas";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // Form2
             // 
@@ -211,9 +212,9 @@
         private Button buttonRegistrarProducto;
         private Button button1;
         private Button buttonSucursales;
-        private Button buttonAniadirResp;
         private Button buttonRegVisita;
         private Button buttonClose;
         private Button buttonAdminResp;
+        private Button buttonRegistrarProveedor;
     }
 }

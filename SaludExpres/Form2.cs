@@ -67,6 +67,18 @@ namespace SaludExpres
 
         private void buttonRegistrarProducto_Click(object sender, EventArgs e)
         {
+            Inventario formRegProd = new Inventario();
+            formRegProd.Show();
+        }
+
+        private void buttonRegistrarProveedor_Click(object sender, EventArgs e)
+        {
+            AdministrarProveedores formAdminProv = new AdministrarProveedores();
+            formAdminProv.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
 
         }
     }
