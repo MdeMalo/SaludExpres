@@ -49,7 +49,7 @@
             // 
             comboTipoReporte.FormattingEnabled = true;
             comboTipoReporte.Items.AddRange(new object[] { "" });
-            comboTipoReporte.Location = new Point(429, 104);
+            comboTipoReporte.Location = new Point(816, 104);
             comboTipoReporte.Name = "comboTipoReporte";
             comboTipoReporte.Size = new Size(151, 28);
             comboTipoReporte.TabIndex = 0;
@@ -58,7 +58,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(222, 112);
+            label1.Location = new Point(609, 112);
             label1.Name = "label1";
             label1.Size = new Size(201, 20);
             label1.TabIndex = 1;
@@ -66,7 +66,7 @@
             // 
             // buttonGenerar
             // 
-            buttonGenerar.Location = new Point(218, 180);
+            buttonGenerar.Location = new Point(605, 180);
             buttonGenerar.Name = "buttonGenerar";
             buttonGenerar.Size = new Size(166, 29);
             buttonGenerar.TabIndex = 2;
@@ -76,7 +76,7 @@
             // 
             // dateInicio
             // 
-            dateInicio.Location = new Point(114, 47);
+            dateInicio.Location = new Point(501, 47);
             dateInicio.Name = "dateInicio";
             dateInicio.Size = new Size(283, 27);
             dateInicio.TabIndex = 3;
@@ -84,7 +84,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(18, 54);
+            label2.Location = new Point(405, 54);
             label2.Name = "label2";
             label2.Size = new Size(90, 20);
             label2.TabIndex = 4;
@@ -93,7 +93,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(424, 54);
+            label3.Location = new Point(811, 54);
             label3.Name = "label3";
             label3.Size = new Size(71, 20);
             label3.TabIndex = 6;
@@ -101,23 +101,24 @@
             // 
             // dateFin
             // 
-            dateFin.Location = new Point(501, 47);
+            dateFin.Location = new Point(888, 47);
             dateFin.Name = "dateFin";
             dateFin.Size = new Size(283, 27);
             dateFin.TabIndex = 5;
             // 
             // dataGridReportes
             // 
+            dataGridReportes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             dataGridReportes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridReportes.Location = new Point(6, 26);
             dataGridReportes.Name = "dataGridReportes";
             dataGridReportes.RowHeadersWidth = 51;
-            dataGridReportes.Size = new Size(790, 188);
+            dataGridReportes.Size = new Size(1571, 364);
             dataGridReportes.TabIndex = 7;
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(418, 180);
+            buttonCancelar.Location = new Point(805, 180);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(166, 29);
             buttonCancelar.TabIndex = 10;
@@ -130,7 +131,7 @@
             label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(111, 9);
+            label4.Location = new Point(12, 29);
             label4.Name = "label4";
             label4.Size = new Size(158, 38);
             label4.TabIndex = 11;
@@ -138,18 +139,18 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top;
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             groupBox1.Controls.Add(dataGridReportes);
-            groupBox1.Location = new Point(105, 70);
+            groupBox1.Location = new Point(12, 70);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(802, 230);
+            groupBox1.Size = new Size(1583, 396);
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
             groupBox1.Text = "Reportes";
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Anchor = AnchorStyles.Bottom;
             groupBox2.Controls.Add(buttonCancelar);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(dateFin);
@@ -158,9 +159,9 @@
             groupBox2.Controls.Add(buttonGenerar);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(comboTipoReporte);
-            groupBox2.Location = new Point(105, 306);
+            groupBox2.Location = new Point(18, 472);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(802, 224);
+            groupBox2.Size = new Size(1577, 224);
             groupBox2.TabIndex = 13;
             groupBox2.TabStop = false;
             groupBox2.Text = "Filtros de busqueda";
@@ -169,7 +170,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1013, 584);
+            ClientSize = new Size(1607, 708);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label4);

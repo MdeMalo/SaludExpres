@@ -56,9 +56,9 @@
             groupBox1.Controls.Add(comboFiltroRol);
             groupBox1.Controls.Add(textBusUser);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(192, 36);
+            groupBox1.Location = new Point(12, 36);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1005, 89);
+            groupBox1.Size = new Size(1462, 89);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filtros";
@@ -66,7 +66,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(673, 39);
+            label3.Location = new Point(895, 39);
             label3.Name = "label3";
             label3.Size = new Size(126, 20);
             label3.TabIndex = 2;
@@ -77,7 +77,7 @@
             // 
             comboFiltroEstado.FormattingEnabled = true;
             comboFiltroEstado.Items.AddRange(new object[] { "", "Contratado", "Despedido" });
-            comboFiltroEstado.Location = new Point(805, 32);
+            comboFiltroEstado.Location = new Point(1027, 32);
             comboFiltroEstado.Name = "comboFiltroEstado";
             comboFiltroEstado.Size = new Size(173, 28);
             comboFiltroEstado.TabIndex = 3;
@@ -86,7 +86,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(389, 39);
+            label2.Location = new Point(611, 39);
             label2.Name = "label2";
             label2.Size = new Size(99, 20);
             label2.TabIndex = 1;
@@ -96,7 +96,7 @@
             // 
             comboFiltroRol.FormattingEnabled = true;
             comboFiltroRol.Items.AddRange(new object[] { "", "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
-            comboFiltroRol.Location = new Point(494, 31);
+            comboFiltroRol.Location = new Point(716, 31);
             comboFiltroRol.Name = "comboFiltroRol";
             comboFiltroRol.Size = new Size(173, 28);
             comboFiltroRol.TabIndex = 1;
@@ -104,7 +104,7 @@
             // 
             // textBusUser
             // 
-            textBusUser.Location = new Point(154, 32);
+            textBusUser.Location = new Point(376, 32);
             textBusUser.Name = "textBusUser";
             textBusUser.Size = new Size(229, 27);
             textBusUser.TabIndex = 1;
@@ -113,7 +113,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(41, 39);
+            label1.Location = new Point(263, 39);
             label1.Name = "label1";
             label1.Size = new Size(107, 20);
             label1.TabIndex = 0;
@@ -121,41 +121,43 @@
             // 
             // dataGridUsuarios
             // 
+            dataGridUsuarios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             dataGridUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridUsuarios.Location = new Point(6, 26);
             dataGridUsuarios.Name = "dataGridUsuarios";
             dataGridUsuarios.RowHeadersWidth = 51;
-            dataGridUsuarios.Size = new Size(993, 402);
+            dataGridUsuarios.Size = new Size(1450, 498);
             dataGridUsuarios.TabIndex = 1;
             dataGridUsuarios.CellContentClick += dataGridUsuarios_CellContentClick;
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             groupBox2.Controls.Add(dataGridUsuarios);
-            groupBox2.Location = new Point(192, 131);
+            groupBox2.Location = new Point(12, 131);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1005, 434);
+            groupBox2.Size = new Size(1462, 530);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Usuarios";
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = AnchorStyles.Top;
+            groupBox3.Anchor = AnchorStyles.Bottom;
             groupBox3.Controls.Add(buttonEliminarUs);
             groupBox3.Controls.Add(buttonEditUs);
             groupBox3.Controls.Add(buttonAgregarUsuario);
-            groupBox3.Location = new Point(192, 571);
+            groupBox3.Location = new Point(18, 667);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1005, 79);
+            groupBox3.Size = new Size(1456, 79);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Gestión";
             // 
             // buttonEliminarUs
             // 
-            buttonEliminarUs.Location = new Point(683, 25);
+            buttonEliminarUs.Anchor = AnchorStyles.Top;
+            buttonEliminarUs.Location = new Point(909, 25);
             buttonEliminarUs.Name = "buttonEliminarUs";
             buttonEliminarUs.Size = new Size(180, 29);
             buttonEliminarUs.TabIndex = 2;
@@ -165,7 +167,8 @@
             // 
             // buttonEditUs
             // 
-            buttonEditUs.Location = new Point(408, 25);
+            buttonEditUs.Anchor = AnchorStyles.Top;
+            buttonEditUs.Location = new Point(634, 25);
             buttonEditUs.Name = "buttonEditUs";
             buttonEditUs.Size = new Size(180, 29);
             buttonEditUs.TabIndex = 1;
@@ -175,7 +178,8 @@
             // 
             // buttonAgregarUsuario
             // 
-            buttonAgregarUsuario.Location = new Point(141, 25);
+            buttonAgregarUsuario.Anchor = AnchorStyles.Top;
+            buttonAgregarUsuario.Location = new Point(367, 25);
             buttonAgregarUsuario.Name = "buttonAgregarUsuario";
             buttonAgregarUsuario.Size = new Size(180, 29);
             buttonAgregarUsuario.TabIndex = 0;
@@ -187,7 +191,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1353, 758);
+            ClientSize = new Size(1486, 758);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);

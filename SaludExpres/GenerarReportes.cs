@@ -24,6 +24,7 @@ namespace SaludExpres
             comboTipoReporte.Items.Add("Sucursales Activas");
             comboTipoReporte.Items.Add("Visitas Sanitarias");
             comboTipoReporte.SelectedIndex = 0; // Selecciona la primera opción por defecto
+            this.WindowState = FormWindowState.Maximized; // Establece la ventana a pantalla completa
         }
 
         private void comboTipoReporte_SelectedIndexChanged(object sender, EventArgs e)

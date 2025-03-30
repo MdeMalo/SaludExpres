@@ -32,13 +32,15 @@
             listView1 = new ListView();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            buttonAdminResp = new Button();
+            buttonClose = new Button();
+            buttonRegVisita = new Button();
             buttonAniadirResp = new Button();
             buttonSucursales = new Button();
             button3 = new Button();
             buttonUsuarios = new Button();
-            button2 = new Button();
+            buttonRegistrarProducto = new Button();
             button1 = new Button();
-            buttonRegVisita = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -76,32 +78,65 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonAdminResp);
+            groupBox2.Controls.Add(buttonClose);
             groupBox2.Controls.Add(buttonRegVisita);
             groupBox2.Controls.Add(buttonAniadirResp);
             groupBox2.Controls.Add(buttonSucursales);
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(buttonUsuarios);
-            groupBox2.Controls.Add(button2);
+            groupBox2.Controls.Add(buttonRegistrarProducto);
             groupBox2.Controls.Add(button1);
             groupBox2.Location = new Point(416, 556);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(566, 208);
+            groupBox2.Size = new Size(566, 297);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
             // 
+            // buttonAdminResp
+            // 
+            buttonAdminResp.Location = new Point(185, 145);
+            buttonAdminResp.Name = "buttonAdminResp";
+            buttonAdminResp.Size = new Size(196, 29);
+            buttonAdminResp.TabIndex = 11;
+            buttonAdminResp.Text = "Administrar responsables";
+            buttonAdminResp.UseVisualStyleBackColor = true;
+            buttonAdminResp.Click += buttonAdminResp_Click;
+            // 
+            // buttonClose
+            // 
+            buttonClose.Location = new Point(466, 262);
+            buttonClose.Name = "buttonClose";
+            buttonClose.Size = new Size(94, 29);
+            buttonClose.TabIndex = 10;
+            buttonClose.Text = "Cerrar";
+            buttonClose.UseVisualStyleBackColor = true;
+            buttonClose.Click += buttonClose_Click;
+            // 
+            // buttonRegVisita
+            // 
+            buttonRegVisita.Location = new Point(185, 185);
+            buttonRegVisita.Name = "buttonRegVisita";
+            buttonRegVisita.Size = new Size(196, 29);
+            buttonRegVisita.TabIndex = 9;
+            buttonRegVisita.Text = "Registrar visita sanitaria";
+            buttonRegVisita.UseVisualStyleBackColor = true;
+            buttonRegVisita.Click += buttonRegVisita_Click;
+            // 
             // buttonAniadirResp
             // 
-            buttonAniadirResp.Location = new Point(324, 109);
+            buttonAniadirResp.Location = new Point(324, 105);
             buttonAniadirResp.Name = "buttonAniadirResp";
             buttonAniadirResp.Size = new Size(160, 29);
             buttonAniadirResp.TabIndex = 8;
             buttonAniadirResp.Text = "Añadir responsable";
             buttonAniadirResp.UseVisualStyleBackColor = true;
+            buttonAniadirResp.Click += buttonAniadirResp_Click;
             // 
             // buttonSucursales
             // 
-            buttonSucursales.Location = new Point(82, 109);
+            buttonSucursales.Location = new Point(82, 105);
             buttonSucursales.Name = "buttonSucursales";
             buttonSucursales.Size = new Size(160, 29);
             buttonSucursales.TabIndex = 7;
@@ -111,7 +146,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(324, 67);
+            button3.Location = new Point(324, 65);
             button3.Name = "button3";
             button3.Size = new Size(160, 29);
             button3.TabIndex = 6;
@@ -129,14 +164,15 @@
             buttonUsuarios.UseVisualStyleBackColor = true;
             buttonUsuarios.Click += buttonUsuarios_Click;
             // 
-            // button2
+            // buttonRegistrarProducto
             // 
-            button2.Location = new Point(82, 67);
-            button2.Name = "button2";
-            button2.Size = new Size(160, 29);
-            button2.TabIndex = 4;
-            button2.Text = "Registrar productos";
-            button2.UseVisualStyleBackColor = true;
+            buttonRegistrarProducto.Location = new Point(82, 65);
+            buttonRegistrarProducto.Name = "buttonRegistrarProducto";
+            buttonRegistrarProducto.Size = new Size(160, 29);
+            buttonRegistrarProducto.TabIndex = 4;
+            buttonRegistrarProducto.Text = "Registrar productos";
+            buttonRegistrarProducto.UseVisualStyleBackColor = true;
+            buttonRegistrarProducto.Click += buttonRegistrarProducto_Click;
             // 
             // button1
             // 
@@ -147,21 +183,11 @@
             button1.Text = "Registrar ventas";
             button1.UseVisualStyleBackColor = true;
             // 
-            // buttonRegVisita
-            // 
-            buttonRegVisita.Location = new Point(187, 151);
-            buttonRegVisita.Name = "buttonRegVisita";
-            buttonRegVisita.Size = new Size(192, 29);
-            buttonRegVisita.TabIndex = 9;
-            buttonRegVisita.Text = "Registrar visita sanitaria";
-            buttonRegVisita.UseVisualStyleBackColor = true;
-            buttonRegVisita.Click += buttonRegVisita_Click;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1398, 776);
+            ClientSize = new Size(1398, 881);
             Controls.Add(groupBox2);
             Controls.Add(label1);
             Controls.Add(groupBox1);
@@ -182,10 +208,12 @@
         private GroupBox groupBox2;
         private Button button3;
         private Button buttonUsuarios;
-        private Button button2;
+        private Button buttonRegistrarProducto;
         private Button button1;
         private Button buttonSucursales;
         private Button buttonAniadirResp;
         private Button buttonRegVisita;
+        private Button buttonClose;
+        private Button buttonAdminResp;
     }
 }

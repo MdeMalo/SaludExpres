@@ -35,6 +35,7 @@
             buttonEditSucursal = new Button();
             buttonDeleteSucursal = new Button();
             buttonAddSucursal = new Button();
+            buttonCerrar = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridSucursales).BeginInit();
             groupBox2.SuspendLayout();
@@ -45,7 +46,7 @@
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(42, 9);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
             label1.Size = new Size(195, 38);
             label1.TabIndex = 2;
@@ -53,40 +54,42 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top;
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             groupBox1.Controls.Add(dataGridSucursales);
-            groupBox1.Location = new Point(36, 60);
+            groupBox1.Location = new Point(12, 60);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1372, 479);
+            groupBox1.Size = new Size(1597, 479);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Sucursales";
             // 
             // dataGridSucursales
             // 
+            dataGridSucursales.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             dataGridSucursales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridSucursales.Location = new Point(6, 26);
             dataGridSucursales.Name = "dataGridSucursales";
             dataGridSucursales.RowHeadersWidth = 51;
-            dataGridSucursales.Size = new Size(1360, 447);
+            dataGridSucursales.Size = new Size(1585, 447);
             dataGridSucursales.TabIndex = 0;
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Anchor = AnchorStyles.Bottom;
+            groupBox2.Controls.Add(buttonCerrar);
             groupBox2.Controls.Add(buttonEditSucursal);
             groupBox2.Controls.Add(buttonDeleteSucursal);
             groupBox2.Controls.Add(buttonAddSucursal);
-            groupBox2.Location = new Point(36, 545);
+            groupBox2.Location = new Point(18, 545);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1372, 105);
+            groupBox2.Size = new Size(1591, 105);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Gestion";
             // 
             // buttonEditSucursal
             // 
-            buttonEditSucursal.Location = new Point(769, 38);
+            buttonEditSucursal.Location = new Point(878, 38);
             buttonEditSucursal.Name = "buttonEditSucursal";
             buttonEditSucursal.Size = new Size(140, 29);
             buttonEditSucursal.TabIndex = 7;
@@ -96,7 +99,7 @@
             // 
             // buttonDeleteSucursal
             // 
-            buttonDeleteSucursal.Location = new Point(616, 38);
+            buttonDeleteSucursal.Location = new Point(725, 38);
             buttonDeleteSucursal.Name = "buttonDeleteSucursal";
             buttonDeleteSucursal.Size = new Size(140, 29);
             buttonDeleteSucursal.TabIndex = 6;
@@ -106,7 +109,7 @@
             // 
             // buttonAddSucursal
             // 
-            buttonAddSucursal.Location = new Point(463, 38);
+            buttonAddSucursal.Location = new Point(572, 38);
             buttonAddSucursal.Name = "buttonAddSucursal";
             buttonAddSucursal.Size = new Size(140, 29);
             buttonAddSucursal.TabIndex = 5;
@@ -114,11 +117,21 @@
             buttonAddSucursal.UseVisualStyleBackColor = true;
             buttonAddSucursal.Click += buttonAddSucursal_Click_1;
             // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(1491, 38);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(94, 29);
+            buttonCerrar.TabIndex = 8;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
+            // 
             // SucursalesAdmin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1445, 674);
+            ClientSize = new Size(1621, 674);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label1);
@@ -141,5 +154,6 @@
         private Button buttonEditSucursal;
         private Button buttonDeleteSucursal;
         private Button buttonAddSucursal;
+        private Button buttonCerrar;
     }
 }

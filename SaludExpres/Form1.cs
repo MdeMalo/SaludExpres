@@ -43,7 +43,7 @@ namespace SaludExpres
                 {
                     MessageBox.Show("Bienvenido, " + usuario + ".");
                 }
-               
+
             }
             else
             {
@@ -154,6 +154,11 @@ namespace SaludExpres
         private void buttonRecContra_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Solicita ayuda a tu encargado de Area");
+        }
+
+        private void buttonCerrar_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -34,6 +34,7 @@
             label2 = new Label();
             buttonIngresar = new Button();
             buttonRecContra = new Button();
+            buttonCerrar = new Button();
             SuspendLayout();
             // 
             // label1
@@ -88,11 +89,22 @@
             buttonRecContra.UseVisualStyleBackColor = true;
             buttonRecContra.Click += buttonRecContra_Click;
             // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(694, 409);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(94, 29);
+            buttonCerrar.TabIndex = 9;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonCerrar);
             Controls.Add(buttonRecContra);
             Controls.Add(buttonIngresar);
             Controls.Add(textBoxContrasenia);
@@ -100,7 +112,8 @@
             Controls.Add(textBoxCorreo);
             Controls.Add(label1);
             Name = "Form1";
-            Text = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Login";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -113,5 +126,6 @@
         private Label label2;
         private Button buttonIngresar;
         private Button buttonRecContra;
+        private Button buttonCerrar;
     }
 }

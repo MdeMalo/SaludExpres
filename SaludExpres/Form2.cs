@@ -47,5 +47,27 @@ namespace SaludExpres
             RegistrarVisita formRegVisita = new RegistrarVisita();
             formRegVisita.Show();
         }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void buttonAniadirResp_Click(object sender, EventArgs e)
+        {
+            AgregarResponsableSanitario formResp = new AgregarResponsableSanitario();
+            formResp.Show();
+        }
+
+        private void buttonAdminResp_Click(object sender, EventArgs e)
+        {
+            AdministrarResponsablesSanitarios formAdminResp = new AdministrarResponsablesSanitarios();
+            formAdminResp.Show();
+        }
+
+        private void buttonRegistrarProducto_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
