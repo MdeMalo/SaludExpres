@@ -228,6 +228,7 @@
             Controls.Add(comboSucursal);
             Controls.Add(buttonGuardar);
             Name = "RegistrarVisita";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "RegistrarVisita";
             Load += RegistrarVisita_Load;
             ResumeLayout(false);

@@ -37,6 +37,7 @@
             groupBox2 = new GroupBox();
             dataGridViewProductos = new DataGridView();
             groupBox1 = new GroupBox();
+            buttonBuscar = new Button();
             checkBoxProxCaducidad = new CheckBox();
             checkBoxStockBajo = new CheckBox();
             numericPrecioMax = new NumericUpDown();
@@ -49,6 +50,7 @@
             comboBoxProveedor = new ComboBox();
             textBoxBuscar = new TextBox();
             label1 = new Label();
+            label6 = new Label();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProductos).BeginInit();
@@ -65,7 +67,7 @@
             groupBox3.Controls.Add(buttonEliminarUs);
             groupBox3.Controls.Add(buttonEditUs);
             groupBox3.Controls.Add(buttonAgregarProducto);
-            groupBox3.Location = new Point(47, 576);
+            groupBox3.Location = new Point(47, 729);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(1456, 79);
             groupBox3.TabIndex = 6;
@@ -130,9 +132,9 @@
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             groupBox2.Controls.Add(dataGridViewProductos);
-            groupBox2.Location = new Point(47, 101);
+            groupBox2.Location = new Point(47, 138);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1456, 469);
+            groupBox2.Size = new Size(1456, 585);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
             groupBox2.Text = "Productos";
@@ -144,12 +146,14 @@
             dataGridViewProductos.Location = new Point(3, 26);
             dataGridViewProductos.Name = "dataGridViewProductos";
             dataGridViewProductos.RowHeadersWidth = 51;
-            dataGridViewProductos.Size = new Size(1447, 437);
+            dataGridViewProductos.Size = new Size(1447, 553);
             dataGridViewProductos.TabIndex = 0;
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top;
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(buttonBuscar);
             groupBox1.Controls.Add(checkBoxProxCaducidad);
             groupBox1.Controls.Add(checkBoxStockBajo);
             groupBox1.Controls.Add(numericPrecioMax);
@@ -164,10 +168,21 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(47, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1456, 89);
+            groupBox1.Size = new Size(1456, 126);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filtros";
+            // 
+            // buttonBuscar
+            // 
+            buttonBuscar.Anchor = AnchorStyles.Top;
+            buttonBuscar.Location = new Point(638, 78);
+            buttonBuscar.Name = "buttonBuscar";
+            buttonBuscar.Size = new Size(180, 29);
+            buttonBuscar.TabIndex = 5;
+            buttonBuscar.Text = "Buscar";
+            buttonBuscar.UseVisualStyleBackColor = true;
+            buttonBuscar.Click += buttonBuscar_Click;
             // 
             // checkBoxProxCaducidad
             // 
@@ -224,7 +239,7 @@
             // comboBoxCategoria
             // 
             comboBoxCategoria.FormattingEnabled = true;
-            comboBoxCategoria.Items.AddRange(new object[] { "", "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
+            comboBoxCategoria.Items.AddRange(new object[] { "" });
             comboBoxCategoria.Location = new Point(716, 30);
             comboBoxCategoria.Name = "comboBoxCategoria";
             comboBoxCategoria.Size = new Size(173, 28);
@@ -251,7 +266,7 @@
             // comboBoxProveedor
             // 
             comboBoxProveedor.FormattingEnabled = true;
-            comboBoxProveedor.Items.AddRange(new object[] { "", "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
+            comboBoxProveedor.Items.AddRange(new object[] { "" });
             comboBoxProveedor.Location = new Point(454, 30);
             comboBoxProveedor.Name = "comboBoxProveedor";
             comboBoxProveedor.Size = new Size(173, 28);
@@ -263,6 +278,7 @@
             textBoxBuscar.Name = "textBoxBuscar";
             textBoxBuscar.Size = new Size(229, 27);
             textBoxBuscar.TabIndex = 1;
+            textBoxBuscar.TextChanged += textBoxBuscar_TextChanged;
             // 
             // label1
             // 
@@ -273,11 +289,20 @@
             label1.TabIndex = 0;
             label1.Text = "Buscar producto:";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(18, 61);
+            label6.Name = "label6";
+            label6.Size = new Size(277, 20);
+            label6.TabIndex = 11;
+            label6.Text = "(Aplica para nombre, descripcion o lote)";
+            // 
             // Inventario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1550, 667);
+            ClientSize = new Size(1550, 820);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -317,5 +342,7 @@
         private Label label5;
         private NumericUpDown numericPrecioMin;
         private Button buttonEliminar;
+        private Button buttonBuscar;
+        private Label label6;
     }
 }

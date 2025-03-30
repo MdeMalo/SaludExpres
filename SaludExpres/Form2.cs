@@ -77,9 +77,10 @@ namespace SaludExpres
             formAdminProv.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonRegistrarVentas_Click(object sender, EventArgs e)
         {
-
+            RegistrarVenta formRegVentas = new RegistrarVenta();
+            formRegVentas.Show();
         }
     }
 }

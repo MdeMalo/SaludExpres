@@ -40,7 +40,7 @@
             button3 = new Button();
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
-            button1 = new Button();
+            buttonRegistrarVentas = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -86,7 +86,7 @@
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(buttonUsuarios);
             groupBox2.Controls.Add(buttonRegistrarProducto);
-            groupBox2.Controls.Add(button1);
+            groupBox2.Controls.Add(buttonRegistrarVentas);
             groupBox2.Location = new Point(416, 556);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(566, 297);
@@ -174,15 +174,15 @@
             buttonRegistrarProducto.UseVisualStyleBackColor = true;
             buttonRegistrarProducto.Click += buttonRegistrarProducto_Click;
             // 
-            // button1
+            // buttonRegistrarVentas
             // 
-            button1.Location = new Point(69, 45);
-            button1.Name = "button1";
-            button1.Size = new Size(196, 29);
-            button1.TabIndex = 3;
-            button1.Text = "Registrar ventas";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonRegistrarVentas.Location = new Point(69, 45);
+            buttonRegistrarVentas.Name = "buttonRegistrarVentas";
+            buttonRegistrarVentas.Size = new Size(196, 29);
+            buttonRegistrarVentas.TabIndex = 3;
+            buttonRegistrarVentas.Text = "Registrar ventas";
+            buttonRegistrarVentas.UseVisualStyleBackColor = true;
+            buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
             // Form2
             // 
@@ -210,7 +210,7 @@
         private Button button3;
         private Button buttonUsuarios;
         private Button buttonRegistrarProducto;
-        private Button button1;
+        private Button buttonRegistrarVentas;
         private Button buttonSucursales;
         private Button buttonRegVisita;
         private Button buttonClose;

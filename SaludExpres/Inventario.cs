@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -83,6 +84,8 @@ namespace SaludExpres
         private void Inventario_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            CargarFiltrosProveedores();
+            CargarFiltrosCategorias();
         }
 
         private void buttonCerrar_Click(object sender, EventArgs e)
@@ -97,82 +100,133 @@ namespace SaludExpres
                 List<string> filtros = new List<string>();
                 string busqueda = textBoxBuscar.Text.Trim();
 
-                // Filtro por texto en nombre, descripción o lote
+                // 🟢 Filtro por texto en Nombre, Descripción o Lote
                 if (!string.IsNullOrEmpty(busqueda))
                 {
                     filtros.Add($"(Nombre LIKE '%{busqueda}%' OR Descripción LIKE '%{busqueda}%' OR Lote LIKE '%{busqueda}%')");
                 }
 
-                // Filtro por proveedor
+                // 🟢 Filtro por Proveedor
                 if (comboBoxProveedor.SelectedIndex > 0)
                 {
-                    filtros.Add($"idProveedor = {comboBoxProveedor.SelectedValue}");
+                    filtros.Add($"Proveedor = '{comboBoxProveedor.Text}'");
                 }
 
-                // Filtro por categoría
+                // 🟢 Filtro por Categoría
                 if (comboBoxCategoria.SelectedIndex > 0)
                 {
-                    filtros.Add($"idCategoria = {comboBoxCategoria.SelectedValue}");
+                    filtros.Add($"Categoría = '{comboBoxCategoria.Text}'");
                 }
 
-                // Filtro por rango de precios
+                // 🟢 Filtro por Rango de Precios
                 if (numericPrecioMin.Value > 0 || numericPrecioMax.Value > 0)
                 {
-                    filtros.Add($"(precioSinIva >= {numericPrecioMin.Value} AND precioSinIva <= {numericPrecioMax.Value})");
+                    filtros.Add($"([Precio Sin IVA] >= {numericPrecioMin.Value} AND [Precio Sin IVA] <= {numericPrecioMax.Value})");
                 }
 
-                // Filtro por stock
+                // 🟢 Filtro por Stock Bajo
                 if (checkBoxStockBajo.Checked)
                 {
-                    filtros.Add("stock < 10"); // Productos con menos de 10 unidades
+                    filtros.Add("Stock < 10");
                 }
 
-                // Filtro por fecha de caducidad
+                // 🟢 Filtro por Fecha de Caducidad
                 if (checkBoxProxCaducidad.Checked)
                 {
-                    filtros.Add($"fechaCaducidad <= '{DateTime.Now.AddMonths(3).ToString("yyyy-MM-dd")}'");
+                    filtros.Add($"[Fecha Caducidad] <= #{DateTime.Now.AddMonths(3):yyyy-MM-dd}#");
                 }
 
-                // Aplica el filtro combinado
+                // 🔹 Aplica el filtro
                 dt.DefaultView.RowFilter = string.Join(" AND ", filtros);
+
+                // 🔄 Refresca la vista
+                dataGridViewProductos.Refresh();
+                dataGridViewProductos.Update();
+                MessageBox.Show("Filtro aplicado: " + string.Join(" AND ", filtros));
             }
         }
 
-        // Evento de búsqueda en tiempo real
-        private void textBoxBuscar_TextChanged(object sender, EventArgs e)
+
+
+        private void CargarFiltrosProveedores()
         {
-            AplicarFiltro();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT idProveedor, nombre FROM proveedor";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    // Agregar opción "Todos" al inicio
+                    DataRow dr = dt.NewRow();
+                    dr["idProveedor"] = 0;
+                    dr["nombre"] = "Todos";
+                    dt.Rows.InsertAt(dr, 0);
+
+                    comboBoxProveedor.DataSource = dt;
+                    comboBoxProveedor.DisplayMember = "nombre";
+                    comboBoxProveedor.ValueMember = "idProveedor";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar proveedores para filtro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        // Evento para cuando se cambia una opción de filtro
-        private void comboBoxProveedor_SelectedIndexChanged(object sender, EventArgs e)
+        private void CargarFiltrosCategorias()
         {
-            AplicarFiltro();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT idCategoria, nombre FROM categoria";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    // Agregar opción "Todos" al inicio
+                    DataRow dr = dt.NewRow();
+                    dr["idCategoria"] = 0;
+                    dr["nombre"] = "Todos";
+                    dt.Rows.InsertAt(dr, 0);
+
+                    comboBoxCategoria.DataSource = dt;
+                    comboBoxCategoria.DisplayMember = "nombre";
+                    comboBoxCategoria.ValueMember = "idCategoria";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar categorías para filtro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void comboBoxCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        private void AplicarFiltroNombre()
         {
-            AplicarFiltro();
-        }
-
-        private void numericPrecioMin_ValueChanged(object sender, EventArgs e)
-        {
-            AplicarFiltro();
-        }
-
-        private void numericPrecioMax_ValueChanged(object sender, EventArgs e)
-        {
-            AplicarFiltro();
-        }
-
-        private void checkBoxStockBajo_CheckedChanged(object sender, EventArgs e)
-        {
-            AplicarFiltro();
-        }
-
-        private void checkBoxProxCaducidad_CheckedChanged(object sender, EventArgs e)
-        {
-            AplicarFiltro();
+            try
+            {
+                if (dataGridViewProductos.DataSource is DataTable dt)
+                {
+                    string busqueda = textBoxBuscar.Text.Trim();
+                    if (!string.IsNullOrEmpty(busqueda))
+                    {
+                        dt.DefaultView.RowFilter = $"Nombre LIKE '%{busqueda}%'";
+                    }
+                    else
+                    {
+                        dt.DefaultView.RowFilter = ""; // Quita el filtro si está vacío
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al aplicar el filtro por nombre: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
@@ -245,5 +299,14 @@ namespace SaludExpres
             CargarProductos();
         }
 
+        private void buttonBuscar_Click(object sender, EventArgs e)
+        {
+            AplicarFiltro();
+        }
+
+        private void textBoxBuscar_TextChanged(object sender, EventArgs e)
+        {
+            AplicarFiltroNombre();
+        }
     }
 }
