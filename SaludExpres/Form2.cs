@@ -86,7 +86,8 @@ namespace SaludExpres
 
         private void buttonFactura_Click(object sender, EventArgs e)
         {
-
+            GenerarFactura formGenFactura = new GenerarFactura();
+            formGenFactura.Show();
         }
     }
 }
