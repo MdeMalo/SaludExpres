@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using QRCoder;
 
 namespace SaludExpres
 {
@@ -30,6 +31,51 @@ namespace SaludExpres
             CargarComboBoxPagos();
             CalcularTotales();
             CalcularSubtotal();
+            CargarComboBoxCFDI();
+        }
+
+        private DataTable ObtenerDetallesVenta(int idVenta)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                SELECT 
+                    dv.idProducto,
+                    p.descripcion AS descripcion,
+                    dv.cantidad,
+                    dv.precioUnitario,
+                    dv.subtotal AS importe
+                FROM detalleventa dv
+                INNER JOIN producto p ON dv.idProducto = p.idProducto
+                WHERE dv.idVenta = @idVenta";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                        adapter.Fill(dt);
+                        // Depuración: Mostrar cuántas filas se encontraron
+                        MessageBox.Show($"Detalles encontrados para idVenta {idVenta}: {dt.Rows.Count}", "Depuración");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener los detalles de la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return dt;
+        }
+
+        private void CargarComboBoxCFDI()
+        {
+            comboBoxCFDI.Items.Clear();
+            comboBoxCFDI.Items.Add("D01: Honorarios médicos, dentales y gastos hospitalarios");
+            comboBoxCFDI.Items.Add("G03: Gastos en general");
+            comboBoxCFDI.Items.Add("P01: Por definir");
+            comboBoxCFDI.SelectedIndex = 0;
         }
         private void CargarGridVentas()
         {
@@ -43,6 +89,52 @@ namespace SaludExpres
                 adapter.Fill(dt);
                 gridVentas.DataSource = dt;
                 gridVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+        }
+
+        private (Bitmap qrCodeImage, string qrData) GenerarCodigoQR(int idFactura, int idVenta, int idEmisor, int idReceptor, decimal total)
+        {
+            try
+            {
+                // Crear la cadena numérica con los datos de la factura
+                string qrData = $"{idFactura}{idVenta}{idEmisor}{idReceptor}{(int)total}";
+
+                // Crear el generador de QR
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
+
+                // Generar la imagen del QR
+                QRCode qrCode = new QRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(20); // Tamaño estándar, puedes ajustarlo
+
+                return (qrCodeImage, qrData); // Devuelve la imagen y la cadena numérica
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el código QR: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return (null, null);
+            }
+        }
+
+        private void GuardarCodigoNumerico(int idFactura, string codigoNumerico)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "UPDATE factura SET codigoBarras = @codigoBarras WHERE idFactura = @idFactura";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@codigoBarras", codigoNumerico);
+                        cmd.Parameters.AddWithValue("@idFactura", idFactura);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar el código numérico: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -124,22 +216,46 @@ namespace SaludExpres
                     return;
                 }
 
-                // Calcular totales a partir del detalle de la venta (suponiendo que tienes un método para ello)
-                // Por ejemplo, podrías tener controles o un DataGridView adicional con el detalle de la venta.
-                decimal subtotal = CalcularSubtotal(); // Implementa según tus datos
+                if (comboBoxCFDI.SelectedItem == null)
+                {
+                    MessageBox.Show("Seleccione un uso CFDI.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DataTable detallesVenta = ObtenerDetallesVenta(IdVenta);
+                if (detallesVenta.Rows.Count == 0)
+                {
+                    DialogResult result = MessageBox.Show("No se encontraron detalles para la venta seleccionada. ¿Desea continuar sin detalles?",
+                        "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+                decimal subtotal = CalcularSubtotal();
                 decimal impuestos = subtotal * 0.16m;
                 decimal total = subtotal + impuestos;
 
-                // Generar un número de factura único
                 string numeroFactura = "FAC" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                // Insertar la factura
-                int idFactura = InsertarFactura(numeroFactura, subtotal, impuestos, total);
+                int idFactura = InsertarFactura(numeroFactura, subtotal, impuestos, total, detallesVenta);
 
                 if (idFactura > 0)
                 {
                     MessageBox.Show("Factura generada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+
+                    var (qrCode, qrData) = GenerarCodigoQR(idFactura, IdVenta, IdEmisor, IdReceptor, total);
+                    if (qrCode != null)
+                    {
+                        pictureBoxQR.SizeMode = PictureBoxSizeMode.Zoom;
+                        pictureBoxQR.Image = qrCode;
+                        qrCode.Save("factura_" + idFactura + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        GuardarCodigoNumerico(idFactura, qrData);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo generar el código QR.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {
@@ -148,9 +264,8 @@ namespace SaludExpres
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"IdVenta: {IdVenta}, IdReceptor: {IdReceptor}, IdEmisor: {IdEmisor}", "Depuración");
-
-                MessageBox.Show("Ocurrió un error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}\nDetalles: IdVenta={IdVenta}, IdReceptor={IdReceptor}, IdEmisor={IdEmisor}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -195,39 +310,67 @@ namespace SaludExpres
 
 
         // Método para insertar la factura en la BD y retornar el idFactura generado
-        private int InsertarFactura(string numeroFactura, decimal subtotal, decimal impuestos, decimal total)
+        private int InsertarFactura(string numeroFactura, decimal subtotal, decimal impuestos, decimal total, DataTable detallesVenta)
         {
             int idFactura = 0;
-            try
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                conn.Open();
+                using (MySqlTransaction transaction = conn.BeginTransaction())
                 {
-                    conn.Open();
-                    string query = @"
-            INSERT INTO factura 
-            (numeroFactura, fechaEmision, idEmisor, idReceptor, subtotal, impuestos, total, metodoPago, idVenta, usoCFDI)
-            VALUES 
-            (@numeroFactura, NOW(), @idEmisor, @idReceptor, @subtotal, @impuestos, @total, @metodoPago, @idVenta, @usoCFDI);
-            SELECT LAST_INSERT_ID();";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@numeroFactura", numeroFactura);
-                        cmd.Parameters.AddWithValue("@idEmisor", IdEmisor);
-                        cmd.Parameters.AddWithValue("@idReceptor", IdReceptor);
-                        cmd.Parameters.AddWithValue("@subtotal", subtotal);
-                        cmd.Parameters.AddWithValue("@impuestos", impuestos);
-                        cmd.Parameters.AddWithValue("@total", total);
-                        cmd.Parameters.AddWithValue("@metodoPago", comboBoxMetodoPago.SelectedItem.ToString()); // Ajusta según tus necesidades
-                        cmd.Parameters.AddWithValue("@idVenta", IdVenta);
-                        cmd.Parameters.AddWithValue("@usoCFDI", comboBoxCFDI.SelectedItem.ToString()); // Ajusta según tus necesidades
+                        string queryFactura = @"
+                    INSERT INTO factura 
+                    (numeroFactura, fechaEmision, idEmisor, idReceptor, subtotal, impuestos, total, metodoPago, idVenta, usoCFDI)
+                    VALUES 
+                    (@numeroFactura, NOW(), @idEmisor, @idReceptor, @subtotal, @impuestos, @total, @metodoPago, @idVenta, @usoCFDI);
+                    SELECT LAST_INSERT_ID();";
+                        using (MySqlCommand cmd = new MySqlCommand(queryFactura, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@numeroFactura", numeroFactura);
+                            cmd.Parameters.AddWithValue("@idEmisor", IdEmisor);
+                            cmd.Parameters.AddWithValue("@idReceptor", IdReceptor);
+                            cmd.Parameters.AddWithValue("@subtotal", subtotal);
+                            cmd.Parameters.AddWithValue("@impuestos", impuestos);
+                            cmd.Parameters.AddWithValue("@total", total);
+                            cmd.Parameters.AddWithValue("@metodoPago", comboBoxMetodoPago.SelectedItem.ToString());
+                            cmd.Parameters.AddWithValue("@idVenta", IdVenta);
+                            cmd.Parameters.AddWithValue("@usoCFDI", comboBoxCFDI.SelectedItem.ToString());
+                            idFactura = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
 
-                        idFactura = Convert.ToInt32(cmd.ExecuteScalar());
+                        foreach (DataRow row in detallesVenta.Rows)
+                        {
+                            string queryDetalle = @"
+                        INSERT INTO detallefactura 
+                        (idFactura, descripcion, cantidad, unidadMedida, precioUnitario, importe, idproducto)
+                        VALUES 
+                        (@idFactura, @descripcion, @cantidad, @unidadMedida, @precioUnitario, @importe, @idproducto)";
+                            using (MySqlCommand cmd = new MySqlCommand(queryDetalle, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@idFactura", idFactura);
+                                cmd.Parameters.AddWithValue("@descripcion", row["descripcion"] != DBNull.Value ? row["descripcion"] : "Producto sin descripción");
+                                cmd.Parameters.AddWithValue("@cantidad", Convert.ToDecimal(row["cantidad"] != DBNull.Value ? row["cantidad"] : 1));
+                                cmd.Parameters.AddWithValue("@unidadMedida", "Pieza");
+                                cmd.Parameters.AddWithValue("@precioUnitario", row["precioUnitario"] != DBNull.Value ? row["precioUnitario"] : 0m);
+                                cmd.Parameters.AddWithValue("@importe", row["importe"] != DBNull.Value ? row["importe"] : 0m);
+                                cmd.Parameters.AddWithValue("@idproducto", row["idProducto"]);
+                                cmd.ExecuteNonQuery();
+                            }
+                            // Depuración: Confirma que se insertó cada fila
+                            MessageBox.Show($"Producto insertado: {row["idProducto"]}", "Depuración");
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("Error al insertar la factura o sus detalles: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return 0;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al insertar la factura: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return idFactura;
         }
@@ -293,6 +436,11 @@ namespace SaludExpres
                 "como artículos de cuidado personal o higiene).\n" +
                 "P01: Por definir (si el cliente no especifica el uso en el momento de la emisión).",
                 "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void buttonCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

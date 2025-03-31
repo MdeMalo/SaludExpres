@@ -49,15 +49,18 @@
             label6 = new Label();
             label7 = new Label();
             groupBox2 = new GroupBox();
+            pictureBoxQR = new PictureBox();
             groupBox3 = new GroupBox();
             button2 = new Button();
             button1 = new Button();
+            buttonCerrar = new Button();
             ((System.ComponentModel.ISupportInitialize)gridVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridReceptor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridEmisor).BeginInit();
             groupBox5.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQR).BeginInit();
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
@@ -95,7 +98,7 @@
             // comboBoxMetodoPago
             // 
             comboBoxMetodoPago.FormattingEnabled = true;
-            comboBoxMetodoPago.Location = new Point(264, 243);
+            comboBoxMetodoPago.Location = new Point(264, 267);
             comboBoxMetodoPago.Name = "comboBoxMetodoPago";
             comboBoxMetodoPago.Size = new Size(151, 28);
             comboBoxMetodoPago.TabIndex = 3;
@@ -142,6 +145,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(buttonCerrar);
             groupBox5.Controls.Add(button3);
             groupBox5.Controls.Add(label8);
             groupBox5.Controls.Add(comboBoxCFDI);
@@ -154,7 +158,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(518, 25);
+            button3.Location = new Point(834, 25);
             button3.Name = "button3";
             button3.Size = new Size(143, 29);
             button3.TabIndex = 19;
@@ -174,10 +178,9 @@
             // comboBoxCFDI
             // 
             comboBoxCFDI.FormattingEnabled = true;
-            comboBoxCFDI.Items.AddRange(new object[] { "D01", "G03", "P01" });
             comboBoxCFDI.Location = new Point(312, 26);
             comboBoxCFDI.Name = "comboBoxCFDI";
-            comboBoxCFDI.Size = new Size(151, 28);
+            comboBoxCFDI.Size = new Size(516, 28);
             comboBoxCFDI.TabIndex = 17;
             // 
             // label1
@@ -252,7 +255,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(140, 251);
+            label7.Location = new Point(140, 275);
             label7.Name = "label7";
             label7.Size = new Size(104, 20);
             label7.TabIndex = 16;
@@ -260,6 +263,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(pictureBoxQR);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(label5);
@@ -275,6 +279,14 @@
             groupBox2.TabIndex = 17;
             groupBox2.TabStop = false;
             groupBox2.Text = "Datos";
+            // 
+            // pictureBoxQR
+            // 
+            pictureBoxQR.Location = new Point(299, 26);
+            pictureBoxQR.Name = "pictureBoxQR";
+            pictureBoxQR.Size = new Size(250, 211);
+            pictureBoxQR.TabIndex = 0;
+            pictureBoxQR.TabStop = false;
             // 
             // groupBox3
             // 
@@ -307,6 +319,16 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(1188, 58);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(94, 29);
+            buttonCerrar.TabIndex = 20;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
+            // 
             // GenerarFactura
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -329,6 +351,7 @@
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQR).EndInit();
             groupBox3.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -359,5 +382,7 @@
         private Button button3;
         private Label label8;
         private ComboBox comboBoxCFDI;
+        private PictureBox pictureBoxQR;
+        private Button buttonCerrar;
     }
 }
