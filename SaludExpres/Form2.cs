@@ -12,6 +12,7 @@ namespace SaludExpres
 {
     public partial class Form2 : Form
     {
+        public int UsuarioID { get; set; }
         public Form2()
         {
             InitializeComponent();
@@ -79,8 +80,13 @@ namespace SaludExpres
 
         private void buttonRegistrarVentas_Click(object sender, EventArgs e)
         {
-            RegistrarVenta formRegVentas = new RegistrarVenta();
+            RegistrarVenta formRegVentas = new RegistrarVenta(UsuarioID);
             formRegVentas.Show();
+        }
+
+        private void buttonFactura_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

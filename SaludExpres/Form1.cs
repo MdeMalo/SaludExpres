@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Windows.Forms;
 using BCrypt.Net;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace SaludExpres
 {
@@ -12,6 +13,7 @@ namespace SaludExpres
 
         // Usuario root que tiene permisos para registrar nuevos usuarios
         private const string RootUsuario = "root";
+        public int UsuarioActualID { get; private set; }
 
         public Form1()
         {
@@ -36,6 +38,7 @@ namespace SaludExpres
                     MessageBox.Show("Bienvenido, usuario root.");
                     // Redirigir al usuario a la siguiente ventana (Form2)
                     Form2 form2 = new Form2();
+                    form2.UsuarioID = UsuarioActualID;
                     form2.Show();
                     this.Hide();
                 }
@@ -58,21 +61,31 @@ namespace SaludExpres
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT password FROM usuario WHERE usuario = @usuario AND activo = 1";
+                    string query = "SELECT idUsuario, password FROM usuario WHERE usuario = @usuario AND activo = 1";
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@usuario", usuario);
                         var result = cmd.ExecuteScalar();
-                        if (result != null)
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            string storedHash = result.ToString();
-
-                            if (usuario == "root" && storedHash == "root")
+                            if (reader.Read())
                             {
-                                return true;
-                            }
+                                int userId = reader.GetInt32("idUsuario");
+                                string storedHash = reader.GetString("password");
 
-                            return BCrypt.Net.BCrypt.Verify(contrasenia, storedHash);
+                                if (usuario == "root" && storedHash == "root")
+                                {
+                                    UsuarioActualID = userId; // Guardar el ID
+                                    return true;
+                                }
+
+                                bool verified = BCrypt.Net.BCrypt.Verify(contrasenia, storedHash);
+                                if (verified)
+                                {
+                                    UsuarioActualID = userId; // Guardar el ID
+                                }
+                                return verified;
+                            }
                         }
                     }
                 }

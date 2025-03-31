@@ -41,6 +41,7 @@
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
+            buttonFactura = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -78,6 +79,7 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonFactura);
             groupBox2.Controls.Add(buttonRegistrarProveedor);
             groupBox2.Controls.Add(buttonAdminResp);
             groupBox2.Controls.Add(buttonClose);
@@ -184,6 +186,16 @@
             buttonRegistrarVentas.UseVisualStyleBackColor = true;
             buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
+            // buttonFactura
+            // 
+            buttonFactura.Location = new Point(69, 212);
+            buttonFactura.Name = "buttonFactura";
+            buttonFactura.Size = new Size(196, 29);
+            buttonFactura.TabIndex = 13;
+            buttonFactura.Text = "Generar factura";
+            buttonFactura.UseVisualStyleBackColor = true;
+            buttonFactura.Click += buttonFactura_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -216,5 +228,6 @@
         private Button buttonClose;
         private Button buttonAdminResp;
         private Button buttonRegistrarProveedor;
+        private Button buttonFactura;
     }
 }
