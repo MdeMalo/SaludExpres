@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label10 = new Label();
+            comboBoxSucursal = new ComboBox();
             label8 = new Label();
             label9 = new Label();
             textSalario = new TextBox();
@@ -56,6 +58,8 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top;
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(comboBoxSucursal);
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(textSalario);
@@ -84,6 +88,24 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Agregar usuarios";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(120, 237);
+            label10.Name = "label10";
+            label10.Size = new Size(66, 20);
+            label10.TabIndex = 21;
+            label10.Text = "Sucursal:";
+            // 
+            // comboBoxSucursal
+            // 
+            comboBoxSucursal.FormattingEnabled = true;
+            comboBoxSucursal.Items.AddRange(new object[] { "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
+            comboBoxSucursal.Location = new Point(192, 234);
+            comboBoxSucursal.Name = "comboBoxSucursal";
+            comboBoxSucursal.Size = new Size(172, 28);
+            comboBoxSucursal.TabIndex = 20;
             // 
             // label8
             // 
@@ -167,7 +189,7 @@
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(417, 284);
+            buttonCancelar.Location = new Point(417, 312);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(125, 29);
             buttonCancelar.TabIndex = 9;
@@ -177,7 +199,7 @@
             // 
             // buttonGuardar
             // 
-            buttonGuardar.Location = new Point(239, 284);
+            buttonGuardar.Location = new Point(239, 312);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(125, 29);
             buttonGuardar.TabIndex = 8;
@@ -227,7 +249,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(192, 226);
+            checkBox1.Location = new Point(332, 275);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(116, 24);
             checkBox1.TabIndex = 5;
@@ -277,6 +299,7 @@
             Controls.Add(groupBox1);
             Name = "AgregarUsuarios";
             Text = "Agregar Usuarios";
+            Load += AgregarUsuarios_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -306,5 +329,7 @@
         private TextBox textApellidoMaterno;
         private TextBox textApellidoPaterno;
         private TextBox textNombre;
+        private Label label10;
+        private ComboBox comboBoxSucursal;
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            listView1 = new ListView();
+            dataGridMetricas = new DataGridView();
             label1 = new Label();
             groupBox2 = new GroupBox();
             buttonVerRecetas = new Button();
@@ -45,27 +45,32 @@
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridMetricas).BeginInit();
             groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top;
-            groupBox1.Controls.Add(listView1);
+            groupBox1.Controls.Add(dataGridMetricas);
             groupBox1.Location = new Point(416, 87);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(566, 463);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Metricas";
+            groupBox1.Text = "Metricas del dia";
             // 
-            // listView1
+            // dataGridMetricas
             // 
-            listView1.Location = new Point(6, 26);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(554, 431);
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
+            dataGridMetricas.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridMetricas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridMetricas.GridColor = SystemColors.HighlightText;
+            dataGridMetricas.Location = new Point(6, 26);
+            dataGridMetricas.Name = "dataGridMetricas";
+            dataGridMetricas.RowHeadersWidth = 51;
+            dataGridMetricas.Size = new Size(554, 431);
+            dataGridMetricas.TabIndex = 0;
+            dataGridMetricas.CellContentClick += dataGridMetricas_CellContentClick;
             // 
             // label1
             // 
@@ -232,6 +237,7 @@
             Text = "Form2";
             Load += Form2_Load;
             groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridMetricas).EndInit();
             groupBox2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -240,7 +246,6 @@
         #endregion
 
         private GroupBox groupBox1;
-        private ListView listView1;
         private Label label1;
         private GroupBox groupBox2;
         private Button button3;
@@ -255,5 +260,6 @@
         private Button buttonFactura;
         private Button buttonMovsInventario;
         private Button buttonVerRecetas;
+        private DataGridView dataGridMetricas;
     }
 }

@@ -57,6 +57,7 @@
             // 
             textBoxContrasenia.Location = new Point(342, 173);
             textBoxContrasenia.Name = "textBoxContrasenia";
+            textBoxContrasenia.PasswordChar = '*';
             textBoxContrasenia.Size = new Size(248, 27);
             textBoxContrasenia.TabIndex = 3;
             // 
