@@ -144,5 +144,11 @@ namespace SaludExpres
         {
 
         }
+
+        private void buttonAuditoria_Click(object sender, EventArgs e)
+        {
+            AuditoriaEmpleadosForm auditoriaEmpleados = new AuditoriaEmpleadosForm();
+            auditoriaEmpleados.Show();
+        }
     }
 }

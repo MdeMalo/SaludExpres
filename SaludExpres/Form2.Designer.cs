@@ -44,6 +44,7 @@
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
+            buttonAuditoria = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridMetricas).BeginInit();
             groupBox2.SuspendLayout();
@@ -86,6 +87,7 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonAuditoria);
             groupBox2.Controls.Add(buttonVerRecetas);
             groupBox2.Controls.Add(buttonMovsInventario);
             groupBox2.Controls.Add(buttonFactura);
@@ -225,6 +227,16 @@
             buttonRegistrarVentas.UseVisualStyleBackColor = true;
             buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
+            // buttonAuditoria
+            // 
+            buttonAuditoria.Location = new Point(302, 256);
+            buttonAuditoria.Name = "buttonAuditoria";
+            buttonAuditoria.Size = new Size(196, 29);
+            buttonAuditoria.TabIndex = 16;
+            buttonAuditoria.Text = "Auditoria";
+            buttonAuditoria.UseVisualStyleBackColor = true;
+            buttonAuditoria.Click += buttonAuditoria_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -261,5 +273,6 @@
         private Button buttonMovsInventario;
         private Button buttonVerRecetas;
         private DataGridView dataGridMetricas;
+        private Button buttonAuditoria;
     }
 }
