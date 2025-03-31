@@ -268,6 +268,7 @@
             dataGridViewCarrito.RowHeadersWidth = 51;
             dataGridViewCarrito.Size = new Size(1388, 248);
             dataGridViewCarrito.TabIndex = 0;
+            dataGridViewCarrito.CellDoubleClick += dataGridViewCarrito_CellDoubleClick;
             // 
             // groupBox4
             // 

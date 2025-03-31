@@ -95,5 +95,11 @@ namespace SaludExpres
             MovimientosInventario movimientosInventario = new MovimientosInventario();
             movimientosInventario.Show();
         }
+
+        private void buttonVerRecetas_Click(object sender, EventArgs e)
+        {
+            Recetas recetas = new Recetas();
+            recetas.Show();
+        }
     }
 }

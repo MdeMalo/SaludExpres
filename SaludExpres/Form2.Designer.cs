@@ -32,6 +32,8 @@
             listView1 = new ListView();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            buttonVerRecetas = new Button();
+            buttonMovsInventario = new Button();
             buttonFactura = new Button();
             buttonRegistrarProveedor = new Button();
             buttonAdminResp = new Button();
@@ -42,7 +44,6 @@
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
-            buttonMovsInventario = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -80,6 +81,7 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonVerRecetas);
             groupBox2.Controls.Add(buttonMovsInventario);
             groupBox2.Controls.Add(buttonFactura);
             groupBox2.Controls.Add(buttonRegistrarProveedor);
@@ -93,10 +95,30 @@
             groupBox2.Controls.Add(buttonRegistrarVentas);
             groupBox2.Location = new Point(416, 556);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(566, 297);
+            groupBox2.Size = new Size(566, 339);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
+            // 
+            // buttonVerRecetas
+            // 
+            buttonVerRecetas.Location = new Point(69, 256);
+            buttonVerRecetas.Name = "buttonVerRecetas";
+            buttonVerRecetas.Size = new Size(196, 29);
+            buttonVerRecetas.TabIndex = 15;
+            buttonVerRecetas.Text = "Recetas";
+            buttonVerRecetas.UseVisualStyleBackColor = true;
+            buttonVerRecetas.Click += buttonVerRecetas_Click;
+            // 
+            // buttonMovsInventario
+            // 
+            buttonMovsInventario.Location = new Point(302, 212);
+            buttonMovsInventario.Name = "buttonMovsInventario";
+            buttonMovsInventario.Size = new Size(196, 29);
+            buttonMovsInventario.TabIndex = 14;
+            buttonMovsInventario.Text = "Movimientos Inventario";
+            buttonMovsInventario.UseVisualStyleBackColor = true;
+            buttonMovsInventario.Click += buttonMovsInventario_Click;
             // 
             // buttonFactura
             // 
@@ -130,7 +152,7 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(466, 262);
+            buttonClose.Location = new Point(466, 304);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(94, 29);
             buttonClose.TabIndex = 10;
@@ -198,21 +220,11 @@
             buttonRegistrarVentas.UseVisualStyleBackColor = true;
             buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
-            // buttonMovsInventario
-            // 
-            buttonMovsInventario.Location = new Point(302, 212);
-            buttonMovsInventario.Name = "buttonMovsInventario";
-            buttonMovsInventario.Size = new Size(196, 29);
-            buttonMovsInventario.TabIndex = 14;
-            buttonMovsInventario.Text = "Movimientos Inventario";
-            buttonMovsInventario.UseVisualStyleBackColor = true;
-            buttonMovsInventario.Click += buttonMovsInventario_Click;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1398, 881);
+            ClientSize = new Size(1398, 907);
             Controls.Add(groupBox2);
             Controls.Add(label1);
             Controls.Add(groupBox1);
@@ -242,5 +254,6 @@
         private Button buttonRegistrarProveedor;
         private Button buttonFactura;
         private Button buttonMovsInventario;
+        private Button buttonVerRecetas;
     }
 }

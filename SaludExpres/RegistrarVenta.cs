@@ -26,28 +26,28 @@ namespace SaludExpres
 
         private void RegistrarVenta_Load(object sender, EventArgs e)
         {
-            // Configurar columnas del carrito solo si no están definidas
             if (dataGridViewCarrito.Columns.Count == 0)
             {
                 dataGridViewCarrito.Columns.Add("idProducto", "ID");
-                dataGridViewCarrito.Columns["idProducto"].Visible = true; // Mostrar ID para referencia
+                dataGridViewCarrito.Columns["idProducto"].Visible = true;
 
                 dataGridViewCarrito.Columns.Add("nombre", "Nombre del Producto");
-                dataGridViewCarrito.Columns.Add("precio", "Precio Unitario");
-                dataGridViewCarrito.Columns["precio"].DefaultCellStyle.Format = "C2"; // Formato moneda
+                dataGridViewCarrito.Columns.Add("precio", "Precio Unitario"); // Precio sin IVA
+                dataGridViewCarrito.Columns["precio"].DefaultCellStyle.Format = "C2";
                 dataGridViewCarrito.Columns.Add("cantidad", "Cantidad");
-                dataGridViewCarrito.Columns.Add("subtotal", "Subtotal");
-                dataGridViewCarrito.Columns["subtotal"].DefaultCellStyle.Format = "C2"; // Formato moneda
-                dataGridViewCarrito.Columns.Add("total", "Total con IVA");
-                dataGridViewCarrito.Columns["total"].DefaultCellStyle.Format = "C2"; // Formato moneda
+                dataGridViewCarrito.Columns.Add("subtotal", "Subtotal"); // Subtotal sin IVA
+                dataGridViewCarrito.Columns["subtotal"].DefaultCellStyle.Format = "C2";
+                dataGridViewCarrito.Columns.Add("total", "Total con IVA"); // Total con IVA
+                dataGridViewCarrito.Columns["total"].DefaultCellStyle.Format = "C2";
+                dataGridViewCarrito.Columns.Add("receta", "Receta");
+                dataGridViewCarrito.Columns["receta"].ReadOnly = true;
 
                 dataGridViewCarrito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dataGridViewCarrito.AllowUserToAddRows = false;
             }
 
-            // Llenar ComboBox con métodos de pago
             comboBoxMetodoPago.Items.AddRange(new string[] { "Efectivo", "Tarjeta de Crédito", "Transferencia", "Otro" });
-            comboBoxMetodoPago.SelectedIndex = 0; // Efectivo como predeterminado
+            comboBoxMetodoPago.SelectedIndex = 0;
         }
 
         private void AgregarProductoAlCarrito(int idProducto, string nombre, decimal precio, int cantidad, int stock)
@@ -76,16 +76,16 @@ namespace SaludExpres
                     }
 
                     row.Cells["cantidad"].Value = nuevaCantidad;
-                    row.Cells["subtotal"].Value = precio * nuevaCantidad;
+                    row.Cells["subtotal"].Value = precio * nuevaCantidad; // Subtotal sin IVA
                     row.Cells["total"].Value = (precio * 1.16m) * nuevaCantidad; // Total con IVA
                     CalcularTotales();
                     return;
                 }
             }
 
-            decimal subtotal = precio * cantidad;
-            decimal total = subtotal * 1.16m; // IVA del 16%
-            dataGridViewCarrito.Rows.Add(idProducto, nombre, precio, cantidad, subtotal, total);
+            decimal subtotal = precio * cantidad; // Subtotal sin IVA
+            decimal total = subtotal * 1.16m; // Total con IVA (16%)
+            dataGridViewCarrito.Rows.Add(idProducto, nombre, precio, cantidad, subtotal, total, "Sin receta");
             CalcularTotales();
         }
 
@@ -146,12 +146,20 @@ namespace SaludExpres
                             {
                                 int productoId = Convert.ToInt32(row.Cells["idProducto"].Value);
                                 int cantidad = Convert.ToInt32(row.Cells["cantidad"].Value);
-                                decimal precioUnitario = Convert.ToDecimal(row.Cells["precio"].Value);
+                                decimal precioUnitario = Convert.ToDecimal(row.Cells["precio"].Value); // Usar "precio" (sin IVA)
                                 decimal subtotalProducto = Convert.ToDecimal(row.Cells["subtotal"].Value);
 
+                                // Registrar detalle con precio unitario sin IVA
                                 RegistrarDetalleVenta(ventaId, productoId, cantidad, precioUnitario, subtotalProducto, connection, transaction);
                                 ActualizarStockProducto(productoId, cantidad, connection, transaction);
                                 RegistrarMovimientoInventario(productoId, cantidad, "Salida", "Venta realizada", idEmpleado, connection, transaction);
+
+                                // Registrar receta si existe
+                                if (row.Tag is RecetaForm recetaForm)
+                                {
+                                    int recetaId = RegistrarReceta(ClienteID, idEmpleado, recetaForm, connection, transaction);
+                                    RegistrarRecetaProducto(recetaId, productoId, recetaForm, connection, transaction);
+                                }
                             }
 
                             RegistrarPago(ventaId, total, metodoPago, connection, transaction);
@@ -171,6 +179,39 @@ namespace SaludExpres
             catch (Exception ex)
             {
                 MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void RegistrarRecetaProducto(int idReceta, int idProducto, RecetaForm recetaForm, MySqlConnection connection, MySqlTransaction transaction)
+        {
+            string query = @"
+        INSERT INTO recetaproducto (idReceta, idProducto, dosis, frecuencia, duracion)
+        VALUES (@idReceta, @idProducto, @dosis, @frecuencia, @duracion);";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@idReceta", idReceta);
+                cmd.Parameters.AddWithValue("@idProducto", idProducto);
+                cmd.Parameters.AddWithValue("@dosis", recetaForm.Dosis ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@frecuencia", recetaForm.Frecuencia ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@duracion", recetaForm.Duracion ?? (object)DBNull.Value);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        private int RegistrarReceta(int idCliente, int idEmpleado, RecetaForm recetaForm, MySqlConnection connection, MySqlTransaction transaction)
+        {
+            string query = @"
+        INSERT INTO receta (idCliente, idEmpleado, fechaEmision, diagnostico, observaciones)
+        VALUES (@idCliente, @idEmpleado, @fechaEmision, @diagnostico, @observaciones);
+        SELECT LAST_INSERT_ID();";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                cmd.Parameters.AddWithValue("@idEmpleado", idEmpleado);
+                cmd.Parameters.AddWithValue("@fechaEmision", recetaForm.FechaEmision);
+                cmd.Parameters.AddWithValue("@diagnostico", recetaForm.Diagnostico);
+                cmd.Parameters.AddWithValue("@observaciones", recetaForm.Observaciones ?? (object)DBNull.Value); // NULL si está vacío
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
@@ -486,6 +527,20 @@ namespace SaludExpres
             {
                 MessageBox.Show("Error al obtener la sucursal: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return "Error";
+            }
+        }
+
+        private void dataGridViewCarrito_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string nombreProducto = dataGridViewCarrito.Rows[e.RowIndex].Cells["nombre"].Value.ToString();
+                RecetaForm recetaForm = new RecetaForm(nombreProducto);
+                if (recetaForm.ShowDialog() == DialogResult.OK)
+                {
+                    dataGridViewCarrito.Rows[e.RowIndex].Cells["receta"].Value = $"Receta #{recetaForm.NumeroReceta}";
+                    dataGridViewCarrito.Rows[e.RowIndex].Tag = recetaForm; // Guardar los datos de la receta en Tag
+                }
             }
         }
     }
