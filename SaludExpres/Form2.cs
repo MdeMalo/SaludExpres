@@ -89,5 +89,11 @@ namespace SaludExpres
             GenerarFactura formGenFactura = new GenerarFactura();
             formGenFactura.Show();
         }
+
+        private void buttonMovsInventario_Click(object sender, EventArgs e)
+        {
+            MovimientosInventario movimientosInventario = new MovimientosInventario();
+            movimientosInventario.Show();
+        }
     }
 }

@@ -210,6 +210,7 @@
             numericPrecioCompra.Name = "numericPrecioCompra";
             numericPrecioCompra.Size = new Size(172, 27);
             numericPrecioCompra.TabIndex = 28;
+            numericPrecioCompra.ValueChanged += numericPrecioCompra_ValueChanged;
             // 
             // label3
             // 
@@ -226,6 +227,7 @@
             numericPrecioSinIva.Name = "numericPrecioSinIva";
             numericPrecioSinIva.Size = new Size(172, 27);
             numericPrecioSinIva.TabIndex = 26;
+            numericPrecioSinIva.ValueChanged += numericPrecioSinIva_ValueChanged;
             // 
             // label11
             // 

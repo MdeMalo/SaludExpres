@@ -88,14 +88,6 @@ namespace SaludExpres
             }
         }
 
-        // Calcula el precio de compra (con IVA) a partir del precio sin IVA
-        private void numericPrecioSinIva_ValueChanged(object sender, EventArgs e)
-        {
-            decimal precioSinIva = numericPrecioSinIva.Value;
-            decimal precioConIva = precioSinIva * 1.16m;
-            numericPrecioCompra.Value = precioConIva; // Actualiza el precio con IVA
-        }
-
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
             // Obtener datos de los controles
@@ -104,7 +96,7 @@ namespace SaludExpres
             decimal precioSinIva = numericPrecioSinIva.Value;
             decimal precioCompra = numericPrecioCompra.Value;
             int stock = (int)numericStock.Value;
-            string tipo = comboBoxTipo.SelectedItem.ToString();
+            string tipo = comboBoxTipo.SelectedItem?.ToString();
             string lote = textLote.Text.Trim();
             DateTime fechaFabricacion = dateTimePickerFechaFabricacion.Value;
             DateTime fechaCaducidad = dateTimePickerFechaCaducidad.Value;
@@ -121,7 +113,6 @@ namespace SaludExpres
                 return;
             }
 
-            // Opcional: validar que fechaCaducidad sea mayor que fechaFabricacion
             if (fechaCaducidad <= fechaFabricacion)
             {
                 MessageBox.Show("La fecha de caducidad debe ser posterior a la fecha de fabricación.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -133,41 +124,75 @@ namespace SaludExpres
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = @"
-                        INSERT INTO producto 
-                        (nombre, descripcion, precioCompra, precioSinIva, stock, tipo, lote, fechaFabricacion, fechaCaducidad, 
-                         registroSanitario, condicionesAlmacenamiento, idProveedor, idCategoria, idSucursal)
-                        VALUES 
-                        (@nombre, @descripcion, @precioCompra, @precioSinIva, @stock, @tipo, @lote, @fechaFabricacion, @fechaCaducidad, 
-                         @registroSanitario, @condicionesAlmacenamiento, @idProveedor, @idCategoria, @idSucursal)";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    using (MySqlTransaction transaction = connection.BeginTransaction())
                     {
-                        cmd.Parameters.AddWithValue("@nombre", nombre);
-                        cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                        cmd.Parameters.AddWithValue("@precioCompra", precioCompra);
-                        cmd.Parameters.AddWithValue("@precioSinIva", precioSinIva);
-                        cmd.Parameters.AddWithValue("@stock", stock);
-                        cmd.Parameters.AddWithValue("@tipo", tipo);
-                        cmd.Parameters.AddWithValue("@lote", lote);
-                        cmd.Parameters.AddWithValue("@fechaFabricacion", fechaFabricacion);
-                        cmd.Parameters.AddWithValue("@fechaCaducidad", fechaCaducidad);
-                        cmd.Parameters.AddWithValue("@registroSanitario", registroSanitario);
-                        cmd.Parameters.AddWithValue("@condicionesAlmacenamiento", condicionesAlmacenamiento);
-                        cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
-                        cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
-                        cmd.Parameters.AddWithValue("@idSucursal", idSucursal);
+                        try
+                        {
+                            // Insertar el producto
+                            string queryProducto = @"
+                                INSERT INTO producto 
+                                (nombre, descripcion, precioCompra, precioSinIva, stock, tipo, lote, fechaFabricacion, fechaCaducidad, 
+                                 registroSanitario, condicionesAlmacenamiento, idProveedor, idCategoria, idSucursal)
+                                VALUES 
+                                (@nombre, @descripcion, @precioCompra, @precioSinIva, @stock, @tipo, @lote, @fechaFabricacion, @fechaCaducidad, 
+                                 @registroSanitario, @condicionesAlmacenamiento, @idProveedor, @idCategoria, @idSucursal);
+                                SELECT LAST_INSERT_ID();";
 
-                        cmd.ExecuteNonQuery();
+                            int idProducto;
+                            using (MySqlCommand cmd = new MySqlCommand(queryProducto, connection, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@nombre", nombre);
+                                cmd.Parameters.AddWithValue("@descripcion", descripcion);
+                                cmd.Parameters.AddWithValue("@precioCompra", precioCompra);
+                                cmd.Parameters.AddWithValue("@precioSinIva", precioSinIva);
+                                cmd.Parameters.AddWithValue("@stock", stock);
+                                cmd.Parameters.AddWithValue("@tipo", tipo);
+                                cmd.Parameters.AddWithValue("@lote", lote);
+                                cmd.Parameters.AddWithValue("@fechaFabricacion", fechaFabricacion);
+                                cmd.Parameters.AddWithValue("@fechaCaducidad", fechaCaducidad);
+                                cmd.Parameters.AddWithValue("@registroSanitario", registroSanitario);
+                                cmd.Parameters.AddWithValue("@condicionesAlmacenamiento", condicionesAlmacenamiento);
+                                cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
+                                cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
+                                cmd.Parameters.AddWithValue("@idSucursal", idSucursal);
+
+                                idProducto = Convert.ToInt32(cmd.ExecuteScalar());
+                            }
+
+                            // Registrar el movimiento en movimientoinventario
+                            if (stock > 0) // Solo registrar si hay stock inicial
+                            {
+                                string queryMovimiento = @"
+                                    INSERT INTO movimientoinventario 
+                                    (idProducto, fechaMovimiento, tipoMovimiento, cantidad, descripcion, idEmpleado)
+                                    VALUES 
+                                    (@idProducto, NOW(), 'Entrada', @cantidad, @descripcion, @idEmpleado)";
+
+                                using (MySqlCommand cmdMovimiento = new MySqlCommand(queryMovimiento, connection, transaction))
+                                {
+                                    cmdMovimiento.Parameters.AddWithValue("@idProducto", idProducto);
+                                    cmdMovimiento.Parameters.AddWithValue("@cantidad", stock);
+                                    cmdMovimiento.Parameters.AddWithValue("@descripcion", "Registro inicial de producto");
+                                    cmdMovimiento.Parameters.AddWithValue("@idEmpleado", 1); // Aquí deberías pasar el ID del empleado actual, ajusta según tu lógica
+                                    cmdMovimiento.ExecuteNonQuery();
+                                }
+                            }
+
+                            transaction.Commit();
+                            MessageBox.Show("Producto registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show("Error al registrar el producto o el movimiento: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
-
-                MessageBox.Show("Producto registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -178,16 +203,16 @@ namespace SaludExpres
 
         private void RegistrarProducto_Load(object sender, EventArgs e)
         {
-
+            // Puedes agregar inicializaciones aquí si es necesario
         }
 
         private void numericPrecioCompra_ValueChanged(object sender, EventArgs e)
         {
-            if (actualizando) return; // Evita recursión infinita
+            if (actualizando) return;
             actualizando = true;
 
             decimal precioConIva = numericPrecioCompra.Value;
-            decimal precioSinIva = precioConIva / 1.16m; // Se divide entre 1.16 para obtener el valor sin IVA
+            decimal precioSinIva = precioConIva / 1.16m;
             numericPrecioSinIva.Value = precioSinIva;
 
             actualizando = false;
@@ -197,10 +222,10 @@ namespace SaludExpres
         {
             if (actualizando) return;
             actualizando = true;
-                
+
             decimal precioSinIva = numericPrecioSinIva.Value;
             decimal precioConIva = precioSinIva * 1.16m;
-            numericPrecioCompra.Value = precioConIva; // Actualiza el campo con IVA
+            numericPrecioCompra.Value = precioConIva;
 
             actualizando = false;
         }

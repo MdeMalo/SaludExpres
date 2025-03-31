@@ -37,7 +37,7 @@ namespace SaludExpres
                     string query = @"
                 SELECT 
                     idResponsable, 
-                    nombre, 
+                    CONCAT(nombre, ' ', apellidoPaterno, ' ', apellidoMaterno) AS nombreCompleto, 
                     CONCAT(
                         calle, ' #', numeroExterior, 
                         IF(numeroInterior IS NOT NULL AND numeroInterior <> '', ' Int. ' , ''), numeroInterior, 
@@ -60,7 +60,7 @@ namespace SaludExpres
 
                         // Renombrar las columnas para mayor claridad (opcional)
                         dt.Columns["idResponsable"].ColumnName = "ID";
-                        dt.Columns["nombre"].ColumnName = "Nombre";
+                        dt.Columns["nombreCompleto"].ColumnName = "Nombre";
                         dt.Columns["direccion"].ColumnName = "Dirección";
                         dt.Columns["registroCOFEPRIS"].ColumnName = "Registro COFEPRIS";
                         dt.Columns["correo"].ColumnName = "Correo";
@@ -86,7 +86,7 @@ namespace SaludExpres
         {
             if (dataGridResponsables.SelectedRows.Count > 0)
             {
-                int idResponsable = Convert.ToInt32(dataGridResponsables.SelectedRows[0].Cells["idResponsable"].Value);
+                int idResponsable = Convert.ToInt32(dataGridResponsables.SelectedRows[0].Cells["ID"].Value);
                 EditarResponsableSanitario formEditarResp = new EditarResponsableSanitario(idResponsable);
                 formEditarResp.ShowDialog();
                 CargarResponsables(); // Recargar lista después de editar

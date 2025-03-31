@@ -30,14 +30,18 @@ namespace SaludExpres
                 {
                     connection.Open();
                     string query = @"UPDATE responsablesanitario 
-                                    SET nombre = @nombre, calle = @calle, numeroExterior = @noExt, numeroInterior = @noInt, 
+                                    SET nombre = @nombre, apellidoPaterno = @apellidoPaterno, apellidoMaterno = @apellidoMaterno, 
+                                        calle = @calle, numeroExterior = @noExt, numeroInterior = @noInt, 
                                         colonia = @colonia, ciudad = @ciudad, estado = @estado, codigoPostal = @codigoPostal, 
                                         registroCOFEPRIS = @registroCOFEPRIS, correo = @correo, telefono = @telefono 
                                     WHERE idResponsable = @idResponsable";
 
+
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@nombre", textNombre.Text);
+                        cmd.Parameters.AddWithValue("@apellidoPaterno", textApellidoPaterno.Text);
+                        cmd.Parameters.AddWithValue("@apellidoMaterno", textApellidoMaterno.Text);
                         cmd.Parameters.AddWithValue("@calle", textCalle.Text);
                         cmd.Parameters.AddWithValue("@noExt", textNoExt.Text);
                         cmd.Parameters.AddWithValue("@noInt", textNoInt.Text);
@@ -86,6 +90,8 @@ namespace SaludExpres
                             if (reader.Read())
                             {
                                 textNombre.Text = reader["nombre"].ToString();
+                                textApellidoPaterno.Text = reader["apellidoPaterno"].ToString();
+                                textApellidoMaterno.Text = reader["apellidoMaterno"].ToString();
                                 textCalle.Text = reader["calle"].ToString();
                                 textNoExt.Text = reader["numeroExterior"].ToString();
                                 textNoInt.Text = reader["numeroInterior"].ToString();
@@ -110,6 +116,11 @@ namespace SaludExpres
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void textNombre_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -30,6 +30,8 @@ namespace SaludExpres
         {
             // Obtener valores de los campos
             string nombre = textNombre.Text.Trim();
+            string apellidoPaterno = textApellidoPaterno.Text.Trim();
+            string apellidoMaterno = textApellidoMaterno.Text.Trim();
             string calle = textCalle.Text.Trim();
             string noExt = textNoExt.Text.Trim();
             string noInt = textNoInt.Text.Trim();
@@ -42,7 +44,7 @@ namespace SaludExpres
             string telefono = textTelefono.Text.Trim();
 
             // Validación: Campos obligatorios
-            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(registroCOFEPRIS) || string.IsNullOrEmpty(correo))
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellidoPaterno) || string.IsNullOrEmpty(registroCOFEPRIS) || string.IsNullOrEmpty(correo))
             {
                 MessageBox.Show("Por favor, complete los campos obligatorios: Nombre, Registro COFEPRIS y Correo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -54,13 +56,15 @@ namespace SaludExpres
                 {
                     connection.Open();
                     string query = @"INSERT INTO responsablesanitario 
-                                     (nombre, calle, numeroExterior, numeroInterior, colonia, ciudad, estado, codigoPostal, registroCOFEPRIS, correo, telefono) 
+                                     (nombre, apellidoPaterno, apellidoMaterno, calle, numeroExterior, numeroInterior, colonia, ciudad, estado, codigoPostal, registroCOFEPRIS, correo, telefono) 
                                      VALUES 
-                                     (@nombre, @calle, @noExt, @noInt, @colonia, @ciudad, @estado, @codigoPostal, @registroCOFEPRIS, @correo, @telefono)";
+                                     (@nombre, @apellidoPaterno, @apellidoMaterno, @calle, @noExt, @noInt, @colonia, @ciudad, @estado, @codigoPostal, @registroCOFEPRIS, @correo, @telefono)";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@nombre", nombre);
+                        cmd.Parameters.AddWithValue("@apellidoPaterno", apellidoPaterno);
+                        cmd.Parameters.AddWithValue("@apellidoMaterno", string.IsNullOrEmpty(apellidoMaterno) ? DBNull.Value : (object)apellidoMaterno);
                         cmd.Parameters.AddWithValue("@calle", string.IsNullOrEmpty(calle) ? DBNull.Value : (object)calle);
                         cmd.Parameters.AddWithValue("@noExt", string.IsNullOrEmpty(noExt) ? DBNull.Value : (object)noExt);
                         cmd.Parameters.AddWithValue("@noInt", string.IsNullOrEmpty(noInt) ? DBNull.Value : (object)noInt);

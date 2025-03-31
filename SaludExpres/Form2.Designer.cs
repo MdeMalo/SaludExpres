@@ -32,6 +32,7 @@
             listView1 = new ListView();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            buttonFactura = new Button();
             buttonRegistrarProveedor = new Button();
             buttonAdminResp = new Button();
             buttonClose = new Button();
@@ -41,7 +42,7 @@
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
-            buttonFactura = new Button();
+            buttonMovsInventario = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -79,6 +80,7 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(buttonMovsInventario);
             groupBox2.Controls.Add(buttonFactura);
             groupBox2.Controls.Add(buttonRegistrarProveedor);
             groupBox2.Controls.Add(buttonAdminResp);
@@ -95,6 +97,16 @@
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
+            // 
+            // buttonFactura
+            // 
+            buttonFactura.Location = new Point(69, 212);
+            buttonFactura.Name = "buttonFactura";
+            buttonFactura.Size = new Size(196, 29);
+            buttonFactura.TabIndex = 13;
+            buttonFactura.Text = "Generar factura";
+            buttonFactura.UseVisualStyleBackColor = true;
+            buttonFactura.Click += buttonFactura_Click;
             // 
             // buttonRegistrarProveedor
             // 
@@ -186,15 +198,15 @@
             buttonRegistrarVentas.UseVisualStyleBackColor = true;
             buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
-            // buttonFactura
+            // buttonMovsInventario
             // 
-            buttonFactura.Location = new Point(69, 212);
-            buttonFactura.Name = "buttonFactura";
-            buttonFactura.Size = new Size(196, 29);
-            buttonFactura.TabIndex = 13;
-            buttonFactura.Text = "Generar factura";
-            buttonFactura.UseVisualStyleBackColor = true;
-            buttonFactura.Click += buttonFactura_Click;
+            buttonMovsInventario.Location = new Point(302, 212);
+            buttonMovsInventario.Name = "buttonMovsInventario";
+            buttonMovsInventario.Size = new Size(196, 29);
+            buttonMovsInventario.TabIndex = 14;
+            buttonMovsInventario.Text = "Movimientos Inventario";
+            buttonMovsInventario.UseVisualStyleBackColor = true;
+            buttonMovsInventario.Click += buttonMovsInventario_Click;
             // 
             // Form2
             // 
@@ -229,5 +241,6 @@
         private Button buttonAdminResp;
         private Button buttonRegistrarProveedor;
         private Button buttonFactura;
+        private Button buttonMovsInventario;
     }
 }

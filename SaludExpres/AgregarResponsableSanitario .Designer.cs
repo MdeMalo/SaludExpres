@@ -52,13 +52,17 @@
             label10 = new Label();
             label11 = new Label();
             groupBox1 = new GroupBox();
+            label13 = new Label();
+            textApellidoMaterno = new TextBox();
+            label12 = new Label();
+            textApellidoPaterno = new TextBox();
             buttonCancelar = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // buttonGuardar
             // 
-            buttonGuardar.Location = new Point(254, 387);
+            buttonGuardar.Location = new Point(254, 438);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(125, 29);
             buttonGuardar.TabIndex = 9;
@@ -68,14 +72,14 @@
             // 
             // textNoExt
             // 
-            textNoExt.Location = new Point(169, 119);
+            textNoExt.Location = new Point(210, 206);
             textNoExt.Name = "textNoExt";
             textNoExt.Size = new Size(172, 27);
             textNoExt.TabIndex = 39;
             // 
             // textNoInt
             // 
-            textNoInt.Location = new Point(169, 166);
+            textNoInt.Location = new Point(210, 253);
             textNoInt.Name = "textNoInt";
             textNoInt.Size = new Size(172, 27);
             textNoInt.TabIndex = 38;
@@ -83,7 +87,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(382, 170);
+            label9.Location = new Point(423, 170);
             label9.Name = "label9";
             label9.Size = new Size(106, 20);
             label9.TabIndex = 37;
@@ -91,7 +95,7 @@
             // 
             // textCodigoPostal
             // 
-            textCodigoPostal.Location = new Point(494, 163);
+            textCodigoPostal.Location = new Point(535, 163);
             textCodigoPostal.Name = "textCodigoPostal";
             textCodigoPostal.Size = new Size(172, 27);
             textCodigoPostal.TabIndex = 36;
@@ -99,7 +103,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(431, 126);
+            label5.Location = new Point(472, 126);
             label5.Name = "label5";
             label5.Size = new Size(57, 20);
             label5.TabIndex = 34;
@@ -108,7 +112,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(429, 83);
+            label6.Location = new Point(470, 83);
             label6.Name = "label6";
             label6.Size = new Size(59, 20);
             label6.TabIndex = 35;
@@ -117,7 +121,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(425, 34);
+            label7.Location = new Point(466, 34);
             label7.Name = "label7";
             label7.Size = new Size(63, 20);
             label7.TabIndex = 33;
@@ -125,21 +129,21 @@
             // 
             // textEstado
             // 
-            textEstado.Location = new Point(494, 119);
+            textEstado.Location = new Point(535, 119);
             textEstado.Name = "textEstado";
             textEstado.Size = new Size(172, 27);
             textEstado.TabIndex = 32;
             // 
             // textCiudad
             // 
-            textCiudad.Location = new Point(494, 75);
+            textCiudad.Location = new Point(535, 75);
             textCiudad.Name = "textCiudad";
             textCiudad.Size = new Size(172, 27);
             textCiudad.TabIndex = 31;
             // 
             // textColonia
             // 
-            textColonia.Location = new Point(494, 31);
+            textColonia.Location = new Point(535, 31);
             textColonia.Name = "textColonia";
             textColonia.Size = new Size(172, 27);
             textColonia.TabIndex = 30;
@@ -147,7 +151,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(76, 173);
+            label4.Location = new Point(117, 260);
             label4.Name = "label4";
             label4.Size = new Size(87, 20);
             label4.TabIndex = 27;
@@ -156,7 +160,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(73, 126);
+            label3.Location = new Point(114, 213);
             label3.Name = "label3";
             label3.Size = new Size(90, 20);
             label3.TabIndex = 28;
@@ -165,7 +169,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(118, 82);
+            label2.Location = new Point(159, 169);
             label2.Name = "label2";
             label2.Size = new Size(45, 20);
             label2.TabIndex = 29;
@@ -174,7 +178,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(96, 34);
+            label1.Location = new Point(137, 34);
             label1.Name = "label1";
             label1.Size = new Size(67, 20);
             label1.TabIndex = 26;
@@ -182,14 +186,14 @@
             // 
             // textCalle
             // 
-            textCalle.Location = new Point(169, 76);
+            textCalle.Location = new Point(210, 163);
             textCalle.Name = "textCalle";
             textCalle.Size = new Size(172, 27);
             textCalle.TabIndex = 25;
             // 
             // textNombre
             // 
-            textNombre.Location = new Point(169, 31);
+            textNombre.Location = new Point(210, 31);
             textNombre.Name = "textNombre";
             textNombre.Size = new Size(172, 27);
             textNombre.TabIndex = 24;
@@ -197,7 +201,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(418, 213);
+            label8.Location = new Point(459, 213);
             label8.Name = "label8";
             label8.Size = new Size(70, 20);
             label8.TabIndex = 41;
@@ -205,21 +209,21 @@
             // 
             // textTelefono
             // 
-            textTelefono.Location = new Point(494, 206);
+            textTelefono.Location = new Point(535, 206);
             textTelefono.Name = "textTelefono";
             textTelefono.Size = new Size(172, 27);
             textTelefono.TabIndex = 40;
             // 
             // textRegistroCOFEPRIS
             // 
-            textRegistroCOFEPRIS.Location = new Point(169, 206);
+            textRegistroCOFEPRIS.Location = new Point(535, 253);
             textRegistroCOFEPRIS.Name = "textRegistroCOFEPRIS";
             textRegistroCOFEPRIS.Size = new Size(172, 27);
             textRegistroCOFEPRIS.TabIndex = 45;
             // 
             // textCorreo
             // 
-            textCorreo.Location = new Point(169, 253);
+            textCorreo.Location = new Point(535, 300);
             textCorreo.Name = "textCorreo";
             textCorreo.Size = new Size(172, 27);
             textCorreo.TabIndex = 44;
@@ -227,7 +231,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(106, 256);
+            label10.Location = new Point(472, 303);
             label10.Name = "label10";
             label10.Size = new Size(57, 20);
             label10.TabIndex = 42;
@@ -236,7 +240,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(28, 213);
+            label11.Location = new Point(394, 260);
             label11.Name = "label11";
             label11.Size = new Size(135, 20);
             label11.TabIndex = 43;
@@ -244,6 +248,10 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label13);
+            groupBox1.Controls.Add(textApellidoMaterno);
+            groupBox1.Controls.Add(label12);
+            groupBox1.Controls.Add(textApellidoPaterno);
             groupBox1.Controls.Add(textRegistroCOFEPRIS);
             groupBox1.Controls.Add(textCorreo);
             groupBox1.Controls.Add(label10);
@@ -266,16 +274,48 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(textCalle);
             groupBox1.Controls.Add(textNombre);
-            groupBox1.Location = new Point(27, 53);
+            groupBox1.Location = new Point(12, 53);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(694, 310);
+            groupBox1.Size = new Size(776, 370);
             groupBox1.TabIndex = 46;
             groupBox1.TabStop = false;
             groupBox1.Text = "Agregar responsable sanitario";
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(75, 122);
+            label13.Name = "label13";
+            label13.Size = new Size(129, 20);
+            label13.TabIndex = 49;
+            label13.Text = "Apellido materno:";
+            // 
+            // textApellidoMaterno
+            // 
+            textApellidoMaterno.Location = new Point(210, 119);
+            textApellidoMaterno.Name = "textApellidoMaterno";
+            textApellidoMaterno.Size = new Size(172, 27);
+            textApellidoMaterno.TabIndex = 48;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(79, 78);
+            label12.Name = "label12";
+            label12.Size = new Size(125, 20);
+            label12.TabIndex = 47;
+            label12.Text = "Apellido paterno:";
+            // 
+            // textApellidoPaterno
+            // 
+            textApellidoPaterno.Location = new Point(210, 75);
+            textApellidoPaterno.Name = "textApellidoPaterno";
+            textApellidoPaterno.Size = new Size(172, 27);
+            textApellidoPaterno.TabIndex = 46;
+            // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(422, 387);
+            buttonCancelar.Location = new Point(422, 438);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(125, 29);
             buttonCancelar.TabIndex = 47;
@@ -287,11 +327,12 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 492);
             Controls.Add(buttonCancelar);
             Controls.Add(groupBox1);
             Controls.Add(buttonGuardar);
             Name = "AgregarResponsableSanitario";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "AgregarResponsableSanitario";
             Load += AgregarResponsableSanitario_Load;
             groupBox1.ResumeLayout(false);
@@ -326,5 +367,9 @@
         private Label label11;
         private GroupBox groupBox1;
         private Button buttonCancelar;
+        private Label label13;
+        private TextBox textApellidoMaterno;
+        private Label label12;
+        private TextBox textApellidoPaterno;
     }
 }

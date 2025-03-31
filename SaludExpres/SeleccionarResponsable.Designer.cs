@@ -82,6 +82,7 @@
             Controls.Add(label1);
             Controls.Add(comboBox1);
             Name = "SeleccionarResponsable";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "SeleccionarResponsable";
             ResumeLayout(false);
             PerformLayout();
