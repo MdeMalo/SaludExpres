@@ -219,7 +219,7 @@ namespace SaludExpres
                         cmd.Parameters.AddWithValue("@total", total);
                         cmd.Parameters.AddWithValue("@metodoPago", comboBoxMetodoPago.SelectedItem.ToString()); // Ajusta según tus necesidades
                         cmd.Parameters.AddWithValue("@idVenta", IdVenta);
-                        cmd.Parameters.AddWithValue("@usoCFDI", comboBoxCFDI.SelectedItem.ToString(); // Ajusta según tus necesidades
+                        cmd.Parameters.AddWithValue("@usoCFDI", comboBoxCFDI.SelectedItem.ToString()); // Ajusta según tus necesidades
 
                         idFactura = Convert.ToInt32(cmd.ExecuteScalar());
                     }
