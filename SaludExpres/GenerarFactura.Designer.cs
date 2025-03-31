@@ -37,6 +37,7 @@
             lblEmisorSeleccionado = new Label();
             lblVentaSeleccionada = new Label();
             groupBox5 = new GroupBox();
+            buttonCerrar = new Button();
             button3 = new Button();
             label8 = new Label();
             comboBoxCFDI = new ComboBox();
@@ -53,7 +54,8 @@
             groupBox3 = new GroupBox();
             button2 = new Button();
             button1 = new Button();
-            buttonCerrar = new Button();
+            groupBox4 = new GroupBox();
+            gridFacturas = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)gridVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridReceptor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridEmisor).BeginInit();
@@ -62,6 +64,8 @@
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxQR).BeginInit();
             groupBox3.SuspendLayout();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)gridFacturas).BeginInit();
             SuspendLayout();
             // 
             // gridVentas
@@ -151,10 +155,20 @@
             groupBox5.Controls.Add(comboBoxCFDI);
             groupBox5.Location = new Point(12, 620);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(1288, 93);
+            groupBox5.Size = new Size(1753, 93);
             groupBox5.TabIndex = 8;
             groupBox5.TabStop = false;
             groupBox5.Text = "Resumen";
+            // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(1653, 58);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(94, 29);
+            buttonCerrar.TabIndex = 20;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
             // 
             // button3
             // 
@@ -319,21 +333,32 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // buttonCerrar
+            // groupBox4
             // 
-            buttonCerrar.Location = new Point(1188, 58);
-            buttonCerrar.Name = "buttonCerrar";
-            buttonCerrar.Size = new Size(94, 29);
-            buttonCerrar.TabIndex = 20;
-            buttonCerrar.Text = "Cerrar";
-            buttonCerrar.UseVisualStyleBackColor = true;
-            buttonCerrar.Click += buttonCerrar_Click;
+            groupBox4.Controls.Add(gridFacturas);
+            groupBox4.Location = new Point(1306, 12);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(459, 602);
+            groupBox4.TabIndex = 19;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Facturas";
+            // 
+            // gridFacturas
+            // 
+            gridFacturas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridFacturas.Location = new Point(6, 26);
+            gridFacturas.Name = "gridFacturas";
+            gridFacturas.RowHeadersWidth = 51;
+            gridFacturas.Size = new Size(447, 570);
+            gridFacturas.TabIndex = 0;
+            gridFacturas.CellDoubleClick += gridFacturas_CellDoubleClick;
             // 
             // GenerarFactura
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1306, 726);
+            ClientSize = new Size(1777, 726);
+            Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -353,6 +378,8 @@
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxQR).EndInit();
             groupBox3.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)gridFacturas).EndInit();
             ResumeLayout(false);
         }
 
@@ -384,5 +411,7 @@
         private ComboBox comboBoxCFDI;
         private PictureBox pictureBoxQR;
         private Button buttonCerrar;
+        private GroupBox groupBox4;
+        private DataGridView gridFacturas;
     }
 }

@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using QRCoder;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 
 namespace SaludExpres
 {
@@ -32,6 +36,37 @@ namespace SaludExpres
             CalcularTotales();
             CalcularSubtotal();
             CargarComboBoxCFDI();
+            CargarGridFacturas();
+        }
+
+        private void CargarGridFacturas()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            idFactura, 
+                            numeroFactura, 
+                            fechaEmision, 
+                            total, 
+                            idVenta, 
+                            idEmisor, 
+                            idReceptor 
+                        FROM factura";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    gridFacturas.DataSource = dt;
+                    gridFacturas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las facturas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private DataTable ObtenerDetallesVenta(int idVenta)
@@ -96,18 +131,22 @@ namespace SaludExpres
         {
             try
             {
-                // Crear la cadena numérica con los datos de la factura
                 string qrData = $"{idFactura}{idVenta}{idEmisor}{idReceptor}{(int)total}";
-
-                // Crear el generador de QR
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
-
-                // Generar la imagen del QR
                 QRCode qrCode = new QRCode(qrCodeData);
-                Bitmap qrCodeImage = qrCode.GetGraphic(20); // Tamaño estándar, puedes ajustarlo
+                Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                string qrPath = @"C:\Facturas\factura_" + idFactura + ".png";
 
-                return (qrCodeImage, qrData); // Devuelve la imagen y la cadena numérica
+                // Asegurarse de que el directorio exista
+                string directory = Path.GetDirectoryName(qrPath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                qrCodeImage.Save(qrPath, System.Drawing.Imaging.ImageFormat.Png); // Guardar en C:\Facturas
+                return (qrCodeImage, qrData);
             }
             catch (Exception ex)
             {
@@ -249,13 +288,15 @@ namespace SaludExpres
                     {
                         pictureBoxQR.SizeMode = PictureBoxSizeMode.Zoom;
                         pictureBoxQR.Image = qrCode;
-                        qrCode.Save("factura_" + idFactura + ".png", System.Drawing.Imaging.ImageFormat.Png);
                         GuardarCodigoNumerico(idFactura, qrData);
                     }
                     else
                     {
                         MessageBox.Show("No se pudo generar el código QR.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
+
+                    GenerarPDF(idFactura, numeroFactura, subtotal, impuestos, total, detallesVenta);
+                    CargarGridFacturas();
                 }
                 else
                 {
@@ -266,6 +307,96 @@ namespace SaludExpres
             {
                 MessageBox.Show($"Error: {ex.Message}\nDetalles: IdVenta={IdVenta}, IdReceptor={IdReceptor}, IdEmisor={IdEmisor}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerarPDF(int idFactura, string numeroFactura, decimal subtotal, decimal impuestos, decimal total, DataTable detallesVenta)
+        {
+            try
+            {
+                string pdfPath = @"C:\Facturas\factura_" + idFactura + ".pdf";
+                string qrPath = @"C:\Facturas\factura_" + idFactura + ".png";
+
+                // Verificar si podemos escribir en el directorio
+                string directory = Path.GetDirectoryName(pdfPath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                using (PdfWriter writer = new PdfWriter(pdfPath))
+                using (PdfDocument pdf = new PdfDocument(writer))
+                using (Document document = new Document(pdf))
+                {
+                    document.Add(new Paragraph("Factura").SetFontSize(20).SetUnderline().SetTextAlignment(TextAlignment.CENTER));
+                    document.Add(new Paragraph($"Número de Factura: {numeroFactura}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Fecha de Emisión: {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Subtotal: ${subtotal:F2}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Impuestos (16%): ${impuestos:F2}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Total: ${total:F2}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Método de Pago: {comboBoxMetodoPago.SelectedItem.ToString()}").SetTextAlignment(TextAlignment.LEFT));
+                    document.Add(new Paragraph($"Uso CFDI: {comboBoxCFDI.SelectedItem.ToString()}").SetTextAlignment(TextAlignment.LEFT));
+
+                    document.Add(new Paragraph("\n"));
+
+                    Table table = new Table(UnitValue.CreatePercentArray(new float[] { 10, 30, 15, 15, 15, 15 })).UseAllAvailableWidth();
+                    table.AddHeaderCell("ID");
+                    table.AddHeaderCell("Descripción");
+                    table.AddHeaderCell("Cantidad");
+                    table.AddHeaderCell("Unidad");
+                    table.AddHeaderCell("Precio Unitario");
+                    table.AddHeaderCell("Importe");
+
+                    foreach (DataRow row in detallesVenta.Rows)
+                    {
+                        table.AddCell(row["idProducto"].ToString());
+                        table.AddCell(row["descripcion"] != DBNull.Value ? row["descripcion"].ToString() : "Producto sin descripción");
+                        table.AddCell(row["cantidad"] != DBNull.Value ? row["cantidad"].ToString() : "1");
+                        table.AddCell("Pieza");
+                        table.AddCell(row["precioUnitario"] != DBNull.Value ? $"${Convert.ToDecimal(row["precioUnitario"]):F2}" : "$0.00");
+                        table.AddCell(row["importe"] != DBNull.Value ? $"${Convert.ToDecimal(row["importe"]):F2}" : "$0.00");
+                    }
+
+                    document.Add(table);
+
+                    if (File.Exists(qrPath))
+                    {
+                        try
+                        {
+                            iText.IO.Image.ImageData imageData = iText.IO.Image.ImageDataFactory.Create(qrPath);
+                            iText.Layout.Element.Image qrImage = new iText.Layout.Element.Image(imageData).SetWidth(100).SetHeight(100);
+                            document.Add(new Paragraph("\nCódigo QR:"));
+                            document.Add(qrImage);
+                        }
+                        catch (System.IO.IOException ioEx)
+                        {
+                            MessageBox.Show("Error al cargar la imagen QR: " + ioEx.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"No se encontró el archivo QR en: {qrPath}", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+
+                MessageBox.Show($"PDF generado correctamente en: {Path.GetFullPath(pdfPath)}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                });
+            }
+            catch (iText.Kernel.Exceptions.PdfException pdfEx)
+            {
+                MessageBox.Show("Error específico de PDF: " + pdfEx.Message, "Error PDF", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ioEx)
+            {
+                MessageBox.Show("Error de entrada/salida al generar el PDF: " + ioEx.Message, "Error IO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -441,6 +572,70 @@ namespace SaludExpres
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void gridFacturas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                try
+                {
+                    int idFactura = Convert.ToInt32(gridFacturas.Rows[e.RowIndex].Cells["idFactura"].Value);
+                    string numeroFactura = gridFacturas.Rows[e.RowIndex].Cells["numeroFactura"].Value.ToString();
+                    DateTime fechaEmision = Convert.ToDateTime(gridFacturas.Rows[e.RowIndex].Cells["fechaEmision"].Value);
+                    decimal total = Convert.ToDecimal(gridFacturas.Rows[e.RowIndex].Cells["total"].Value);
+
+                    // Obtener detalles adicionales desde la base de datos
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        // Consulta para obtener datos adicionales de la factura
+                        string queryFactura = @"
+                    SELECT subtotal, impuestos, metodoPago, usoCFDI 
+                    FROM factura 
+                    WHERE idFactura = @idFactura";
+                        using (MySqlCommand cmd = new MySqlCommand(queryFactura, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@idFactura", idFactura);
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    decimal subtotal = Convert.ToDecimal(reader["subtotal"]);
+                                    decimal impuestos = Convert.ToDecimal(reader["impuestos"]);
+                                    string metodoPago = reader["metodoPago"].ToString();
+                                    string usoCFDI = reader["usoCFDI"].ToString();
+
+                                    reader.Close();
+
+                                    // Obtener detalles de la factura
+                                    DataTable detallesFactura = new DataTable();
+                                    string queryDetalles = @"
+                                SELECT idproducto, descripcion, cantidad, unidadMedida, precioUnitario, importe 
+                                FROM detallefactura 
+                                WHERE idFactura = @idFactura";
+                                    using (MySqlCommand cmdDetalles = new MySqlCommand(queryDetalles, conn))
+                                    {
+                                        cmdDetalles.Parameters.AddWithValue("@idFactura", idFactura);
+                                        MySqlDataAdapter adapter = new MySqlDataAdapter(cmdDetalles);
+                                        adapter.Fill(detallesFactura);
+                                    }
+
+                                    // Abrir el formulario con los datos
+                                    DetalleFacturaForm detalleForm = new DetalleFacturaForm(
+                                        idFactura, numeroFactura, fechaEmision, subtotal, impuestos, total, metodoPago, usoCFDI, detallesFactura);
+                                    detalleForm.ShowDialog();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los detalles de la factura: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
