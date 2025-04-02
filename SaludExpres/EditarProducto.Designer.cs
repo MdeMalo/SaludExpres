@@ -330,7 +330,7 @@
             buttonGuardar.TabIndex = 8;
             buttonGuardar.Text = "Guardar";
             buttonGuardar.UseVisualStyleBackColor = true;
-            buttonGuardar.Click += buttonEditar_Click;
+            buttonGuardar.Click += buttonGuardar_Click;
             // 
             // label2
             // 

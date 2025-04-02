@@ -380,5 +380,9 @@ namespace SaludExpres
             }
         }
 
+        private void comboBoxSucursal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

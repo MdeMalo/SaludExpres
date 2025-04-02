@@ -121,6 +121,7 @@
             lblEmpleado.Size = new Size(222, 38);
             lblEmpleado.TabIndex = 3;
             lblEmpleado.Text = "labelEmpleado";
+            lblEmpleado.Click += lblEmpleado_Click;
             // 
             // label2
             // 
@@ -427,16 +428,17 @@
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(949, 32);
+            buttonCancelar.Location = new Point(1231, 32);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(142, 29);
             buttonCancelar.TabIndex = 15;
             buttonCancelar.Text = "Cancelar";
             buttonCancelar.UseVisualStyleBackColor = true;
+            buttonCancelar.Click += buttonCancelar_Click_1;
             // 
             // buttonRegistrarVenta
             // 
-            buttonRegistrarVenta.Location = new Point(783, 32);
+            buttonRegistrarVenta.Location = new Point(1065, 32);
             buttonRegistrarVenta.Name = "buttonRegistrarVenta";
             buttonRegistrarVenta.Size = new Size(142, 29);
             buttonRegistrarVenta.TabIndex = 14;

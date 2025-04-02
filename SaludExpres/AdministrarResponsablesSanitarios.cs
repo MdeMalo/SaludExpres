@@ -101,9 +101,20 @@ namespace SaludExpres
         {
             if (dataGridResponsables.SelectedRows.Count > 0)
             {
-                int idResponsable = Convert.ToInt32(dataGridResponsables.SelectedRows[0].Cells["idResponsable"].Value);
+                int idResponsable;
+                try
+                {
+                    idResponsable = Convert.ToInt32(dataGridResponsables.SelectedRows[0].Cells["ID"].Value);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al obtener el ID del responsable sanitario: " + ex.Message,
+                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                DialogResult resultado = MessageBox.Show("¿Está seguro de eliminar este responsable sanitario?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult resultado = MessageBox.Show("¿Está seguro de eliminar este responsable sanitario?",
+                                                       "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resultado == DialogResult.Yes)
                 {
                     try
@@ -120,18 +131,21 @@ namespace SaludExpres
                             }
                         }
 
-                        MessageBox.Show("Responsable sanitario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Responsable sanitario eliminado correctamente.",
+                                      "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         CargarResponsables();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al eliminar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error al eliminar: " + ex.Message,
+                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un responsable sanitario para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un responsable sanitario para eliminar.",
+                               "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

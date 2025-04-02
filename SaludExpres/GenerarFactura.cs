@@ -530,9 +530,7 @@ namespace SaludExpres
             if (e.RowIndex >= 0)
             {
                 IdVenta = Convert.ToInt32(gridVentas.Rows[e.RowIndex].Cells["idVenta"].Value);
-                lblVentaSeleccionada.Text = $"Venta: {IdVenta}";
-
-                MessageBox.Show($"Venta seleccionada: {IdVenta}");
+                lblVentaSeleccionada.Text = $"{IdVenta}";
             }
         }
 
@@ -542,8 +540,7 @@ namespace SaludExpres
             if (e.RowIndex >= 0)
             {
                 IdReceptor = Convert.ToInt32(gridReceptor.Rows[e.RowIndex].Cells["idReceptor"].Value);
-                lblReceptorSeleccionado.Text = $"Receptor: {gridReceptor.Rows[e.RowIndex].Cells["receptor"].Value.ToString()}";
-                MessageBox.Show($"Receptor seleccionado: {IdReceptor}");
+                lblReceptorSeleccionado.Text = $"{gridReceptor.Rows[e.RowIndex].Cells["receptor"].Value.ToString()}";
             }
         }
 
@@ -552,10 +549,8 @@ namespace SaludExpres
             if (e.RowIndex >= 0)
             {
                 IdEmisor = Convert.ToInt32(gridEmisor.Rows[e.RowIndex].Cells["idEmisor"].Value);
-                lblEmisorSeleccionado.Text = $"Emisor: {gridEmisor.Rows[e.RowIndex].Cells["nombre"].Value.ToString()}";
+                lblEmisorSeleccionado.Text = $"{gridEmisor.Rows[e.RowIndex].Cells["nombre"].Value.ToString()}";
 
-
-                MessageBox.Show($"Venta seleccionada: {IdEmisor}");
             }
         }
 

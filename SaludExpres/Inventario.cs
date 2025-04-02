@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
-using System.Globalization;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -25,27 +24,26 @@ namespace SaludExpres
                 {
                     connection.Open();
                     string query = @"
-                SELECT 
-                    p.idProducto, 
-                    p.nombre, 
-                    p.descripcion, 
-                    p.precioCompra, 
-                    p.precioSinIva, 
-                    p.precioConIva, 
-                    p.stock, 
-                    p.tipo, 
-                    p.lote, 
-                    p.fechaFabricacion, 
-                    p.fechaCaducidad, 
-                    p.registroSanitario, 
-                    p.condicionesAlmacenamiento, 
-                    pr.nombre AS proveedor, 
-                    c.nombre AS categoria, 
-                    s.nombre AS sucursal
-                FROM producto p
-                LEFT JOIN proveedor pr ON p.idProveedor = pr.idProveedor
-                LEFT JOIN categoria c ON p.idCategoria = c.idCategoria
-                LEFT JOIN sucursal s ON p.idSucursal = s.idSucursal";
+                        SELECT 
+                            p.idProducto, 
+                            p.nombre, 
+                            p.descripcion, 
+                            p.precioCompra, 
+                            p.precioSinIva, 
+                            p.stock, 
+                            p.tipo, 
+                            p.lote, 
+                            p.fechaFabricacion, 
+                            p.fechaCaducidad, 
+                            p.registroSanitario, 
+                            p.condicionesAlmacenamiento, 
+                            pr.nombre AS proveedor, 
+                            c.nombre AS categoria, 
+                            s.nombre AS sucursal
+                        FROM producto p
+                        LEFT JOIN proveedor pr ON p.idProveedor = pr.idProveedor
+                        LEFT JOIN categoria c ON p.idCategoria = c.idCategoria
+                        LEFT JOIN sucursal s ON p.idSucursal = s.idSucursal";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
                     DataTable dt = new DataTable();
@@ -55,13 +53,12 @@ namespace SaludExpres
                     dataGridViewProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dataGridViewProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-                    // Opcional: Renombrar columnas para mayor claridad en el DataGridView
+                    // Renombrar columnas
                     dt.Columns["idProducto"].ColumnName = "ID";
                     dt.Columns["nombre"].ColumnName = "Nombre";
                     dt.Columns["descripcion"].ColumnName = "Descripción";
                     dt.Columns["precioCompra"].ColumnName = "Precio Compra";
                     dt.Columns["precioSinIva"].ColumnName = "Precio Sin IVA";
-                    dt.Columns["precioConIva"].ColumnName = "Precio Con IVA";
                     dt.Columns["stock"].ColumnName = "Stock";
                     dt.Columns["tipo"].ColumnName = "Tipo";
                     dt.Columns["lote"].ColumnName = "Lote";
@@ -79,7 +76,6 @@ namespace SaludExpres
                 MessageBox.Show("Error al cargar productos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void Inventario_Load(object sender, EventArgs e)
         {
@@ -100,53 +96,40 @@ namespace SaludExpres
                 List<string> filtros = new List<string>();
                 string busqueda = textBoxBuscar.Text.Trim();
 
-                // 🟢 Filtro por texto en Nombre, Descripción o Lote
                 if (!string.IsNullOrEmpty(busqueda))
                 {
                     filtros.Add($"(Nombre LIKE '%{busqueda}%' OR Descripción LIKE '%{busqueda}%' OR Lote LIKE '%{busqueda}%')");
                 }
 
-                // 🟢 Filtro por Proveedor
                 if (comboBoxProveedor.SelectedIndex > 0)
                 {
                     filtros.Add($"Proveedor = '{comboBoxProveedor.Text}'");
                 }
 
-                // 🟢 Filtro por Categoría
                 if (comboBoxCategoria.SelectedIndex > 0)
                 {
                     filtros.Add($"Categoría = '{comboBoxCategoria.Text}'");
                 }
 
-                // 🟢 Filtro por Rango de Precios
                 if (numericPrecioMin.Value > 0 || numericPrecioMax.Value > 0)
                 {
                     filtros.Add($"([Precio Sin IVA] >= {numericPrecioMin.Value} AND [Precio Sin IVA] <= {numericPrecioMax.Value})");
                 }
 
-                // 🟢 Filtro por Stock Bajo
                 if (checkBoxStockBajo.Checked)
                 {
                     filtros.Add("Stock < 10");
                 }
 
-                // 🟢 Filtro por Fecha de Caducidad
                 if (checkBoxProxCaducidad.Checked)
                 {
-                    filtros.Add($"[Fecha Caducidad] <= #{DateTime.Now.AddMonths(3):yyyy-MM-dd}#");
+                    filtros.Add($"[Fecha Caducidad] <= '{DateTime.Now.AddMonths(3):yyyy-MM-dd}'");
                 }
 
-                // 🔹 Aplica el filtro
-                dt.DefaultView.RowFilter = string.Join(" AND ", filtros);
-
-                // 🔄 Refresca la vista
+                dt.DefaultView.RowFilter = filtros.Count > 0 ? string.Join(" AND ", filtros) : "";
                 dataGridViewProductos.Refresh();
-                dataGridViewProductos.Update();
-                MessageBox.Show("Filtro aplicado: " + string.Join(" AND ", filtros));
             }
         }
-
-
 
         private void CargarFiltrosProveedores()
         {
@@ -160,7 +143,6 @@ namespace SaludExpres
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Agregar opción "Todos" al inicio
                     DataRow dr = dt.NewRow();
                     dr["idProveedor"] = 0;
                     dr["nombre"] = "Todos";
@@ -173,7 +155,7 @@ namespace SaludExpres
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar proveedores para filtro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar proveedores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -189,7 +171,6 @@ namespace SaludExpres
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Agregar opción "Todos" al inicio
                     DataRow dr = dt.NewRow();
                     dr["idCategoria"] = 0;
                     dr["nombre"] = "Todos";
@@ -202,30 +183,7 @@ namespace SaludExpres
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar categorías para filtro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AplicarFiltroNombre()
-        {
-            try
-            {
-                if (dataGridViewProductos.DataSource is DataTable dt)
-                {
-                    string busqueda = textBoxBuscar.Text.Trim();
-                    if (!string.IsNullOrEmpty(busqueda))
-                    {
-                        dt.DefaultView.RowFilter = $"Nombre LIKE '%{busqueda}%'";
-                    }
-                    else
-                    {
-                        dt.DefaultView.RowFilter = ""; // Quita el filtro si está vacío
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al aplicar el filtro por nombre: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar categorías: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -237,38 +195,58 @@ namespace SaludExpres
                 return;
             }
 
-            // Obtener el ID del producto desde la columna renombrada
             int idProducto = Convert.ToInt32(dataGridViewProductos.SelectedRows[0].Cells["ID"].Value);
-
-            DialogResult result = MessageBox.Show("¿Está seguro de que desea eliminar este producto?",
-                                                  "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            DialogResult resultado = MessageBox.Show("¿Está seguro de eliminar este producto?",
+                                                   "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (resultado == DialogResult.Yes)
             {
                 try
                 {
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
                         connection.Open();
-                        string query = "DELETE FROM producto WHERE idProducto = @idProducto";
-
-                        using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                        using (MySqlTransaction transaction = connection.BeginTransaction())
                         {
-                            cmd.Parameters.AddWithValue("@idProducto", idProducto);
-                            cmd.ExecuteNonQuery();
+                            try
+                            {
+                                // Eliminar registros dependientes (ajusta según tus tablas)
+                                string[] tablasDependientes = { "movimientoinventario" /*, "detalle_venta", "otra_tabla" */ };
+                                foreach (string tabla in tablasDependientes)
+                                {
+                                    string queryDependiente = $"DELETE FROM {tabla} WHERE idProducto = @idProducto";
+                                    using (MySqlCommand cmdDependiente = new MySqlCommand(queryDependiente, connection, transaction))
+                                    {
+                                        cmdDependiente.Parameters.AddWithValue("@idProducto", idProducto);
+                                        cmdDependiente.ExecuteNonQuery();
+                                    }
+                                }
+
+                                // Eliminar el producto
+                                string queryProducto = "DELETE FROM producto WHERE idProducto = @idProducto";
+                                using (MySqlCommand cmdProducto = new MySqlCommand(queryProducto, connection, transaction))
+                                {
+                                    cmdProducto.Parameters.AddWithValue("@idProducto", idProducto);
+                                    cmdProducto.ExecuteNonQuery();
+                                }
+
+                                transaction.Commit();
+                                MessageBox.Show("Producto eliminado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                CargarProductos(); // Recargar la lista en lugar de cerrar el formulario
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                MessageBox.Show("Error al eliminar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
-
-                    MessageBox.Show("Producto eliminado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    CargarProductos(); // Recargar la tabla después de eliminar
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al eliminar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
-
 
         private void buttonAgregarProducto_Click(object sender, EventArgs e)
         {
@@ -279,23 +257,15 @@ namespace SaludExpres
 
         private void buttonEditUs_Click(object sender, EventArgs e)
         {
-            // Verificar si hay alguna fila seleccionada
             if (dataGridViewProductos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un producto para editar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Obtener el ID del producto seleccionado desde la columna "ID" renombrada
             int idProducto = Convert.ToInt32(dataGridViewProductos.SelectedRows[0].Cells["ID"].Value);
-
-            // Crear una nueva instancia del formulario de edición y pasarle el ID del producto
             EditarProducto editarProductoForm = new EditarProducto(idProducto);
-
-            // Mostrar el formulario de edición
             editarProductoForm.ShowDialog();
-
-            // Recargar los productos después de editar
             CargarProductos();
         }
 
@@ -306,7 +276,7 @@ namespace SaludExpres
 
         private void textBoxBuscar_TextChanged(object sender, EventArgs e)
         {
-            AplicarFiltroNombre();
+            AplicarFiltro(); // Usar el filtro completo en lugar de solo por nombre
         }
     }
 }

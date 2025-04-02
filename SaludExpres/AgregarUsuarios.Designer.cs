@@ -298,6 +298,7 @@
             ClientSize = new Size(1196, 450);
             Controls.Add(groupBox1);
             Name = "AgregarUsuarios";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Agregar Usuarios";
             Load += AgregarUsuarios_Load;
             groupBox1.ResumeLayout(false);

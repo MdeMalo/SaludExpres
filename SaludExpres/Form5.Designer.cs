@@ -34,6 +34,7 @@
             buttonRegistrarVentas = new Button();
             groupBox1 = new GroupBox();
             labelBienvenida = new Label();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -49,9 +50,9 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(573, 367);
+            buttonClose.Location = new Point(471, 358);
             buttonClose.Name = "buttonClose";
-            buttonClose.Size = new Size(94, 29);
+            buttonClose.Size = new Size(119, 29);
             buttonClose.TabIndex = 18;
             buttonClose.Text = "Cerrar";
             buttonClose.UseVisualStyleBackColor = true;
@@ -98,12 +99,24 @@
             labelBienvenida.Size = new Size(104, 41);
             labelBienvenida.TabIndex = 21;
             labelBienvenida.Text = "label1";
+            labelBienvenida.Click += labelBienvenida_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(210, 358);
+            button1.Name = "button1";
+            button1.Size = new Size(119, 29);
+            button1.TabIndex = 22;
+            button1.Text = "Cerrar sesión";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // MenuRegularForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(labelBienvenida);
             Controls.Add(groupBox1);
             Controls.Add(buttonClose);
@@ -124,5 +137,6 @@
         private Button buttonRegistrarVentas;
         private GroupBox groupBox1;
         private Label labelBienvenida;
+        private Button button1;
     }
 }

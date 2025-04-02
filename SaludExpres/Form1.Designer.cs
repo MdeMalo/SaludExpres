@@ -42,9 +42,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(211, 129);
             label1.Name = "label1";
-            label1.Size = new Size(125, 20);
+            label1.Size = new Size(130, 20);
             label1.TabIndex = 0;
-            label1.Text = "Ingrese su correo:";
+            label1.Text = "Ingrese su usuario:";
             // 
             // textBoxCorreo
             // 

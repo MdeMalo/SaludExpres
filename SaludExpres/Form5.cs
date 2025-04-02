@@ -130,5 +130,25 @@ namespace SaludExpres
         {
             Application.Exit();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("¿Estás seguro de que quieres cerrar sesión?", "Confirmar Logout",
+                                          MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Crear una nueva instancia de Form1
+                Form1 loginForm = new Form1();
+                loginForm.Show(); // Mostrar el formulario de login
+
+                // Cerrar el formulario actual (Form2)
+                this.Close();
+            }
+        }
+
+        private void labelBienvenida_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

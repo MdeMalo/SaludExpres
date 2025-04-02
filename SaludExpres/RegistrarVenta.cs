@@ -543,5 +543,15 @@ namespace SaludExpres
                 }
             }
         }
+
+        private void lblEmpleado_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonCancelar_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

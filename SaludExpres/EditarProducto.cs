@@ -85,7 +85,7 @@ namespace SaludExpres
                 {
                     connection.Open();
 
-                    // Llenar ComboBox Tipo manualmente (sin DataSource)
+                    // Llenar ComboBox Tipo manualmente
                     comboBoxTipo.Items.Clear();
                     comboBoxTipo.Items.Add("generico");
                     comboBoxTipo.Items.Add("patente");
@@ -126,12 +126,17 @@ namespace SaludExpres
 
         private void buttonEditar_Click(object sender, EventArgs e)
         {
+            // Lógica eliminada; ahora está en buttonGuardar_Click
+        }
+
+        private void buttonGuardar_Click(object sender, EventArgs e)
+        {
             string nombre = textNombre.Text.Trim();
             string descripcion = textDescripcion.Text.Trim();
             decimal precioCompra = numericPrecioCompra.Value;
             decimal precioSinIva = numericPrecioSinIva.Value;
             int stock = (int)numericStock.Value;
-            string tipo = comboBoxTipo.SelectedItem?.ToString(); // Obtener el valor seleccionado
+            string tipo = comboBoxTipo.SelectedItem?.ToString();
             string lote = textLote.Text.Trim();
             DateTime fechaFabricacion = dateTimePickerFechaFabricacion.Value;
             DateTime fechaCaducidad = dateTimePickerFechaCaducidad.Value;
@@ -148,17 +153,13 @@ namespace SaludExpres
                 return;
             }
 
-            if (comboBoxTipo.SelectedIndex == -1) // No hay selección
+            if (comboBoxTipo.SelectedIndex == -1)
             {
                 MessageBox.Show("Seleccione un tipo (genérico o patente).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Asignar tipo según el índice seleccionado
             tipo = comboBoxTipo.SelectedIndex == 0 ? "generico" : "patente";
-
-            // Depurar el valor de 'tipo' antes de la consulta
-            MessageBox.Show($"Valor de tipo antes de actualizar: '{tipo}'", "Debug");
 
             try
             {
@@ -195,7 +196,7 @@ namespace SaludExpres
                                 cmd.Parameters.AddWithValue("@precioCompra", precioCompra);
                                 cmd.Parameters.AddWithValue("@precioSinIva", precioSinIva);
                                 cmd.Parameters.AddWithValue("@stock", stock);
-                                cmd.Parameters.AddWithValue("@tipo", tipo); // Valor garantizado como "generico" o "patente"
+                                cmd.Parameters.AddWithValue("@tipo", tipo);
                                 cmd.Parameters.AddWithValue("@lote", lote);
                                 cmd.Parameters.AddWithValue("@fechaFabricacion", fechaFabricacion);
                                 cmd.Parameters.AddWithValue("@fechaCaducidad", fechaCaducidad);
@@ -209,7 +210,7 @@ namespace SaludExpres
                                 cmd.ExecuteNonQuery();
                             }
 
-                            // Verificar si el stock cambió y registrar movimiento
+                            // Registrar movimiento si el stock cambió
                             if (stock != stockOriginal)
                             {
                                 string tipoMovimiento = stock > stockOriginal ? "Entrada" : "Salida";
@@ -239,7 +240,7 @@ namespace SaludExpres
                         catch (Exception ex)
                         {
                             transaction.Rollback();
-                            MessageBox.Show("Error al actualizar el producto o registrar el movimiento: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error al actualizar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

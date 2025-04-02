@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,6 @@ namespace SaludExpres
     public partial class Form2 : Form
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["SaludExpresConnection"].ConnectionString;
-
         public int UsuarioID { get; set; }
         public Form2()
         {
@@ -25,9 +25,37 @@ namespace SaludExpres
         private void Form2_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
-            this.FormBorderStyle = FormBorderStyle.None; // Esto elimina los bordes para modo pantalla completa
+            this.FormBorderStyle = FormBorderStyle.None;
             CargarMetricasDelDia();
+            string nombreUsuario = ObtenerNombreUsuario(UsuarioID); // Usa UsuarioID directamente
+            labelBienvenida.Text = $"Bienvenido, {nombreUsuario}";
+        }
 
+        private string ObtenerNombreUsuario(int usuarioID)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"
+                        SELECT CONCAT(e.nombre, ' ', e.apellidoPaterno) AS nombreCompleto
+                        FROM usuario u
+                        JOIN empleado e ON u.idEmpleado = e.idEmpleado
+                        WHERE u.idUsuario = @idUsuario";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@idUsuario", usuarioID);
+                        var result = cmd.ExecuteScalar();
+                        return result != null ? result.ToString() : "Usuario desconocido";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el nombre del usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "Error";
+            }
         }
 
         private void CargarMetricasDelDia()
@@ -118,8 +146,16 @@ namespace SaludExpres
 
         private void buttonRegistrarVentas_Click(object sender, EventArgs e)
         {
-            RegistrarVenta formRegVentas = new RegistrarVenta(UsuarioID);
-            formRegVentas.Show();
+            int idEmpleado = ObtenerIdEmpleado(UsuarioID);
+            if (idEmpleado != -1)
+            {
+                RegistrarVenta formRegVentas = new RegistrarVenta(idEmpleado);
+                formRegVentas.Show();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo obtener el idEmpleado para este usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonFactura_Click(object sender, EventArgs e)
@@ -139,6 +175,28 @@ namespace SaludExpres
             Recetas recetas = new Recetas();
             recetas.Show();
         }
+        private int ObtenerIdEmpleado(int idUsuario)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT idEmpleado FROM usuario WHERE idUsuario = @idUsuario";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        object result = cmd.ExecuteScalar();
+                        return result != null ? Convert.ToInt32(result) : -1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener idEmpleado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+        }
 
         private void dataGridMetricas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -150,5 +208,22 @@ namespace SaludExpres
             AuditoriaEmpleadosForm auditoriaEmpleados = new AuditoriaEmpleadosForm();
             auditoriaEmpleados.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("¿Estás seguro de que quieres cerrar sesión?", "Confirmar Logout",
+                                          MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Crear una nueva instancia de Form1
+                Form1 loginForm = new Form1();
+                loginForm.Show(); // Mostrar el formulario de login
+
+                // Cerrar el formulario actual (Form2)
+                this.Close();
+            }
+        }
+
+
     }
 }

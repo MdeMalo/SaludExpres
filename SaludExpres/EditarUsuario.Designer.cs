@@ -50,12 +50,16 @@
             textCorreo = new TextBox();
             textContrasenia = new TextBox();
             textUsuario = new TextBox();
+            label10 = new Label();
+            comboBoxSucursal = new ComboBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top;
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(comboBoxSucursal);
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(textSalario);
@@ -166,7 +170,7 @@
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Location = new Point(417, 284);
+            buttonCancelar.Location = new Point(417, 312);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(125, 29);
             buttonCancelar.TabIndex = 9;
@@ -175,7 +179,7 @@
             // 
             // buttonGuardar
             // 
-            buttonGuardar.Location = new Point(239, 284);
+            buttonGuardar.Location = new Point(239, 312);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(125, 29);
             buttonGuardar.TabIndex = 8;
@@ -186,7 +190,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(152, 200);
+            label4.Location = new Point(152, 241);
             label4.Name = "label4";
             label4.Size = new Size(34, 20);
             label4.TabIndex = 7;
@@ -222,7 +226,7 @@
             // checkBoxActivo
             // 
             checkBoxActivo.AutoSize = true;
-            checkBoxActivo.Location = new Point(192, 226);
+            checkBoxActivo.Location = new Point(332, 273);
             checkBoxActivo.Name = "checkBoxActivo";
             checkBoxActivo.Size = new Size(116, 24);
             checkBoxActivo.TabIndex = 5;
@@ -233,7 +237,7 @@
             // 
             comboBoxRol.FormattingEnabled = true;
             comboBoxRol.Items.AddRange(new object[] { "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
-            comboBoxRol.Location = new Point(192, 192);
+            comboBoxRol.Location = new Point(192, 233);
             comboBoxRol.Name = "comboBoxRol";
             comboBoxRol.Size = new Size(172, 28);
             comboBoxRol.TabIndex = 4;
@@ -259,6 +263,25 @@
             textUsuario.Size = new Size(172, 27);
             textUsuario.TabIndex = 0;
             // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(120, 192);
+            label10.Name = "label10";
+            label10.Size = new Size(66, 20);
+            label10.TabIndex = 23;
+            label10.Text = "Sucursal:";
+            // 
+            // comboBoxSucursal
+            // 
+            comboBoxSucursal.FormattingEnabled = true;
+            comboBoxSucursal.Items.AddRange(new object[] { "Administrador", "Cajero", "Encargado de Inventario", "Farmacéutico", "Supervisor" });
+            comboBoxSucursal.Location = new Point(192, 189);
+            comboBoxSucursal.Name = "comboBoxSucursal";
+            comboBoxSucursal.Size = new Size(172, 28);
+            comboBoxSucursal.TabIndex = 22;
+            comboBoxSucursal.SelectedIndexChanged += comboBoxSucursal_SelectedIndexChanged;
+            // 
             // EditarUsuario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -266,6 +289,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(groupBox1);
             Name = "EditarUsuario";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Editar Usuario";
             Load += EditarUsuario_Load;
             groupBox1.ResumeLayout(false);
@@ -297,5 +321,7 @@
         private TextBox textCorreo;
         private TextBox textContrasenia;
         private TextBox textUsuario;
+        private Label label10;
+        private ComboBox comboBoxSucursal;
     }
 }

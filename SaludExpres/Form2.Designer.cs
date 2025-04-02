@@ -30,8 +30,10 @@
         {
             groupBox1 = new GroupBox();
             dataGridMetricas = new DataGridView();
-            label1 = new Label();
+            labelBienvenida = new Label();
             groupBox2 = new GroupBox();
+            button1 = new Button();
+            buttonAuditoria = new Button();
             buttonVerRecetas = new Button();
             buttonMovsInventario = new Button();
             buttonFactura = new Button();
@@ -44,7 +46,6 @@
             buttonUsuarios = new Button();
             buttonRegistrarProducto = new Button();
             buttonRegistrarVentas = new Button();
-            buttonAuditoria = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridMetricas).BeginInit();
             groupBox2.SuspendLayout();
@@ -73,20 +74,21 @@
             dataGridMetricas.TabIndex = 0;
             dataGridMetricas.CellContentClick += dataGridMetricas_CellContentClick;
             // 
-            // label1
+            // labelBienvenida
             // 
-            label1.Anchor = AnchorStyles.Top;
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(416, 31);
-            label1.Name = "label1";
-            label1.Size = new Size(194, 38);
-            label1.TabIndex = 1;
-            label1.Text = "BIENVENIDO";
+            labelBienvenida.Anchor = AnchorStyles.Top;
+            labelBienvenida.AutoSize = true;
+            labelBienvenida.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelBienvenida.Location = new Point(416, 31);
+            labelBienvenida.Name = "labelBienvenida";
+            labelBienvenida.Size = new Size(194, 38);
+            labelBienvenida.TabIndex = 1;
+            labelBienvenida.Text = "BIENVENIDO";
             // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
+            groupBox2.Controls.Add(button1);
             groupBox2.Controls.Add(buttonAuditoria);
             groupBox2.Controls.Add(buttonVerRecetas);
             groupBox2.Controls.Add(buttonMovsInventario);
@@ -106,6 +108,26 @@
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Administración";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(6, 304);
+            button1.Name = "button1";
+            button1.Size = new Size(136, 29);
+            button1.TabIndex = 17;
+            button1.Text = "Cerrar sesión";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // buttonAuditoria
+            // 
+            buttonAuditoria.Location = new Point(302, 256);
+            buttonAuditoria.Name = "buttonAuditoria";
+            buttonAuditoria.Size = new Size(196, 29);
+            buttonAuditoria.TabIndex = 16;
+            buttonAuditoria.Text = "Auditoria";
+            buttonAuditoria.UseVisualStyleBackColor = true;
+            buttonAuditoria.Click += buttonAuditoria_Click;
             // 
             // buttonVerRecetas
             // 
@@ -159,9 +181,9 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(466, 304);
+            buttonClose.Location = new Point(424, 304);
             buttonClose.Name = "buttonClose";
-            buttonClose.Size = new Size(94, 29);
+            buttonClose.Size = new Size(136, 29);
             buttonClose.TabIndex = 10;
             buttonClose.Text = "Cerrar";
             buttonClose.UseVisualStyleBackColor = true;
@@ -227,23 +249,13 @@
             buttonRegistrarVentas.UseVisualStyleBackColor = true;
             buttonRegistrarVentas.Click += buttonRegistrarVentas_Click;
             // 
-            // buttonAuditoria
-            // 
-            buttonAuditoria.Location = new Point(302, 256);
-            buttonAuditoria.Name = "buttonAuditoria";
-            buttonAuditoria.Size = new Size(196, 29);
-            buttonAuditoria.TabIndex = 16;
-            buttonAuditoria.Text = "Auditoria";
-            buttonAuditoria.UseVisualStyleBackColor = true;
-            buttonAuditoria.Click += buttonAuditoria_Click;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1398, 907);
             Controls.Add(groupBox2);
-            Controls.Add(label1);
+            Controls.Add(labelBienvenida);
             Controls.Add(groupBox1);
             Name = "Form2";
             Text = "Form2";
@@ -258,7 +270,7 @@
         #endregion
 
         private GroupBox groupBox1;
-        private Label label1;
+        private Label labelBienvenida;
         private GroupBox groupBox2;
         private Button button3;
         private Button buttonUsuarios;
@@ -274,5 +286,6 @@
         private Button buttonVerRecetas;
         private DataGridView dataGridMetricas;
         private Button buttonAuditoria;
+        private Button button1;
     }
 }

@@ -60,11 +60,17 @@ namespace SaludExpres
             switch (tipoReporte)
             {
                 case "Ventas Diarias":
-                    query = @"SELECT v.idVenta, v.fecha, u.usuario AS Cajero, s.nombre AS Sucursal, v.total 
-                              FROM venta v
-                              INNER JOIN usuario u ON v.idUsuario = u.idUsuario
-                              INNER JOIN sucursal s ON v.idSucursal = s.idSucursal
-                              WHERE v.fecha BETWEEN @fechaInicio AND @fechaFin";
+                    query = @"SELECT 
+                            v.idVenta, 
+                            v.fecha, 
+                            u.usuario AS Cajero, 
+                            s.nombre AS Sucursal, 
+                            v.total 
+                        FROM venta v
+                        INNER JOIN empleado e ON v.idEmpleado = e.idEmpleado
+                        INNER JOIN usuario u ON e.idEmpleado = u.idEmpleado
+                        INNER JOIN sucursal s ON v.idSucursal = s.idSucursal
+                        WHERE v.fecha BETWEEN @fechaInicio AND @fechaFin";
                     break;
                 case "Ventas Mensuales":
                     query = @"SELECT DATE_FORMAT(v.fecha, '%Y-%m') AS Mes, SUM(v.total) AS TotalVentas 
