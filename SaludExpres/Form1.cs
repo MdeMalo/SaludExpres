@@ -77,7 +77,7 @@ namespace SaludExpres
                                 string rol = reader.IsDBNull(reader.GetOrdinal("rol")) ? "Regular" : reader.GetString("rol"); // Default a "Regular" si no hay rol
 
                                 // Verificación especial para "root" (opcional)
-                                if (usuario == "root" && storedHash == "root" && rol == "Administrador")
+                                if (usuario == "root" && storedHash == "root")
                                 {
                                     UsuarioActualID = userId;
                                     RolUsuario = "Administrador";

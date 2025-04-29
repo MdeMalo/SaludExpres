@@ -314,8 +314,8 @@ namespace SaludExpres
         {
             try
             {
-                string pdfPath = @"C:\Facturas\factura_" + idFactura + ".pdf";
-                string qrPath = @"C:\Facturas\factura_" + idFactura + ".png";
+                string pdfPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Facturas", "factura_" + idFactura + ".pdf");
+                string qrPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Facturas", "factura_" + idFactura + ".png");
 
                 // Verificar si podemos escribir en el directorio
                 string directory = Path.GetDirectoryName(pdfPath);
