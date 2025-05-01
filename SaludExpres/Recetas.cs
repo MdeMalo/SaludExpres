@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -21,6 +22,7 @@ namespace SaludExpres
             InitializeComponent();
             CargarDatosRecetas();
             AjustarAnchoColumnas();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void CargarDatosRecetas()

@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;  
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -20,6 +21,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             CargarEmisores();
+            activeUI(this);
         }
         private void CargarEmisores()
         {

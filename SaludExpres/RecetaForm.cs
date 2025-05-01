@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -19,10 +20,12 @@ namespace SaludExpres
         public string Dosis { get; private set; }
         public string Frecuencia { get; private set; }
         public string Duracion { get; private set; }
+
         public RecetaForm(String nombreProducto)
         {
             InitializeComponent();
             InitializeControls(nombreProducto);
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void InitializeControls(string nombreProducto)
@@ -113,5 +116,9 @@ namespace SaludExpres
             this.Controls.Add(btnCancelar);
         }
 
+        private void RecetaForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

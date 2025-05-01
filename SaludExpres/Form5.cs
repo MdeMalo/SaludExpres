@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Configuration;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -14,6 +15,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             this.usuarioID = usuarioActualID;
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void MenuRegularForm_Load(object sender, EventArgs e)

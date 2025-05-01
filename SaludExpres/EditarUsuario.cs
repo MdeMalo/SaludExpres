@@ -3,6 +3,7 @@ using System;
 using System.Configuration; // Para leer la cadena de conexión desde app.config
 using System.Windows.Forms;
 using BCrypt.Net; // Para manejar la encriptación de contraseñas con BCrypt
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -18,6 +19,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             idUsuario = usuarioId;
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
 
         }
 

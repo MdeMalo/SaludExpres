@@ -119,6 +119,7 @@
             gridDetallesFactura.RowHeadersWidth = 51;
             gridDetallesFactura.Size = new Size(1026, 147);
             gridDetallesFactura.TabIndex = 7;
+            gridDetallesFactura.CellContentClick += gridDetallesFactura_CellContentClick;
             // 
             // groupBox1
             // 

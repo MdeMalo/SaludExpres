@@ -14,6 +14,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -37,6 +38,7 @@ namespace SaludExpres
             CalcularSubtotal();
             CargarComboBoxCFDI();
             CargarGridFacturas();
+            activeUI(this);
         }
 
         private void CargarGridFacturas()

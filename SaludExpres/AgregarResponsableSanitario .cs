@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -19,6 +20,7 @@ namespace SaludExpres
         public AgregarResponsableSanitario()
         {
             InitializeComponent();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void AgregarResponsableSanitario_Load(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using System;
 using System.Configuration;
 using System.Windows.Forms;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -14,6 +15,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             this.idSucursal = idSucursal;
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void EditarSucursal_Load(object sender, EventArgs e)

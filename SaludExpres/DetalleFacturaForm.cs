@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -17,6 +18,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             MostrarDatosFactura(idFactura, numeroFactura, fechaEmision, subtotal, impuestos, total, metodoPago, usoCFDI, detallesFactura);
+            systemUI.activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void DetalleFacturaForm_Load(object sender, EventArgs e)
@@ -43,6 +45,11 @@ namespace SaludExpres
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void gridDetallesFactura_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

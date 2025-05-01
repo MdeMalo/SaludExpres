@@ -2,6 +2,7 @@
 using System;
 using System.Configuration; // Para leer la cadena de conexión desde app.config
 using System.Windows.Forms;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -12,6 +13,7 @@ namespace SaludExpres
         public AgregarSucursal()
         {
             InitializeComponent();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void AgregarSucursal_Load(object sender, EventArgs e)

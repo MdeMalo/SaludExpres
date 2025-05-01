@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Windows.Forms;
-
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -14,6 +14,7 @@ namespace SaludExpres
         public RegistrarVisita()
         {
             InitializeComponent();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void CargarSucursales()

@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -22,6 +23,7 @@ namespace SaludExpres
             lblSucursal.Text = ObtenerSucursalPorEmpleado(idEmpleado);
             CargarClientes(); // Cargar lista de clientes al iniciar
             CargarProductos(); // Cargar lista de productos al iniciar
+            activeUI(this);
         }
 
         private void RegistrarVenta_Load(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Configuration;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -13,6 +14,7 @@ namespace SaludExpres
         public GenerarReportes()
         {
             InitializeComponent();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void GenerarReportes_Load(object sender, EventArgs e)

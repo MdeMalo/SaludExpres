@@ -113,6 +113,7 @@
             Controls.Add(buttonEditar);
             Controls.Add(buttonAgregar);
             Name = "AdministrarEmisores";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "AdministrarEmisores";
             Load += AdministrarEmisores_Load;
             groupBox1.ResumeLayout(false);

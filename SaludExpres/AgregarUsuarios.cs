@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Windows.Forms;
 using BCrypt.Net;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -13,6 +14,7 @@ namespace SaludExpres
         public AgregarUsuarios()
         {
             InitializeComponent();
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void AgregarUsuarios_Load(object sender, EventArgs e)

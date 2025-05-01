@@ -37,6 +37,7 @@
             ClientSize = new Size(800, 450);
             Name = "RecetaForm";
             Text = "RecetaForm";
+            Load += RecetaForm_Load;
             ResumeLayout(false);
         }
 

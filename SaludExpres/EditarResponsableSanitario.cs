@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -20,6 +21,7 @@ namespace SaludExpres
         {
             InitializeComponent();
             this.idResponsable = idResponsable;
+            activeUI(this); // Llama a la función para aplicar el estilo de UI
         }
 
         private void buttonGuardar_Click(object sender, EventArgs e)

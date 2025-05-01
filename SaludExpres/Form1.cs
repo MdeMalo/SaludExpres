@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
+using static SaludExpres.systemUI;
 
 namespace SaludExpres
 {
@@ -15,6 +16,7 @@ namespace SaludExpres
         public Form1()
         {
             InitializeComponent();
+            activeUI(this);
         }
 
         private void buttonIngresar_Click(object sender, EventArgs e)
